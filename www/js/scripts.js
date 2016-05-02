@@ -17,7 +17,7 @@ function factoryMaterias(nombre, profesor){
 		nombre: nombre,
 		profesor: profesor,
 		info: function info() {
-			return "Materia: '"+ this.nombre + "' - profesor: " + this.profesor;
+			return  this.nombre + "' - profesor: " + this.profesor;
  		},
  		add_nota: function add_nota(nueva_nota) {
  			this.notas.push(nueva_nota);
@@ -51,6 +51,6 @@ materias.push(materia4);
 
 for (var i = 0, materia = materias[0]; materia = materias[i]; i++) {
 	listado = $(".listado-de-materias");
-	listado.append("<div class='materia'>"+ materia.info() +"<br> <a href='#'> ver notas </a> </div>");
+	listado.append("<button>" +materia.info() +"<strong> ver notas </strong> </button>");
 	console.log("MATERIA:", materia);
 }
