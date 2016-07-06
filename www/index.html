@@ -76,15 +76,38 @@
             <div data-role="footer">
                 <h4>Page Footer</h4>
             </div><!-- /footer -->
-        </div><!-- /page -->
+        </div>
+        <!-- 
+        <script type="text/javascript" src="js/scripts.js"></script>
+        /page -->
 
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/jquery/jquery-2.2.3.min.js"></script>
-        <script type="text/javascript" src="js/scripts.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/jquery-mobile/js/jquery.mobile-1.3.2.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/db/localforage.js"></script>
+        <script type="text/javascript" src="js/src/Proyecto.js"></script>
+        <script type="text/javascript" src="js/src/Materias.js"></script>
         <script type="text/javascript">
             app.initialize();
+
+            PROYECTO.Materias.buscar_todas()
+                .then(
+                    (materias) =>{
+                        console.log("Habia materias...");
+                        console.log(materias);
+                    })
+                .catch(
+                    ()=>{
+                        console.log("No habia materias...");
+                        PROYECTO.Materias.llenar_la_base()
+                            .then(
+                                (materias) => {
+                                    console.log("segundo intento:");
+                                    console.log(materias);
+                                }
+                            )
+                    })
         </script>
     </body>
 </html>
