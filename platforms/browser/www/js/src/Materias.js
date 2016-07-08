@@ -7,7 +7,8 @@
 		    "id": 1,
 		    "nombre": "App web",
 		    "profesores":[
-		    	"Diego Martinez"
+		    	"Diego Martinez",
+		    	"Sebastian Schanz"
 		    ],
 		    "temas_de_referencia": []
 		},
@@ -115,4 +116,4 @@
 
 	};
 	
-}(jQuery, PROYECTO, undefined));
+}(jQuery, NOTEVOICE, undefined));

@@ -1,4 +1,4 @@
-window.PROYECTO = {
+window.NOTEVOICE = {
 	config: {
 		"nombre": "NOTEVOICE"
   	}

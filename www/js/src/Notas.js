@@ -46,4 +46,4 @@
 
 	};
 	
-}(jQuery, PROYECTO, undefined));
+}(jQuery, NOTEVOICE, undefined));
