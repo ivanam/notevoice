@@ -73,8 +73,10 @@
 	    },
 
 	    buscar_todas: function buscarTodas () {
-	    	// devuelve las materias de la base de datos,
-	    	// si no las encuentra, rejectea la promesa.
+	    	/*
+	    	 * Devuelve las materias de la base de datos,
+	    	 * si no las encuentra, rejectea la promesa.
+	    	 */
 	    	var promesa_de_buscar_todas = new Promise(function(resolve, reject) {
 			  // do a thing, possibly async, then…
 			  localforage.getItem('materias').then(
@@ -94,7 +96,10 @@
 	    },
 
 	    llenar_la_base: function llenarLaBase () {
-	    	// body...
+	    	/*
+	    	 * Carga la Base de Datos.
+	    	 * Las materias que se cargan son las materias en _MATERIAS.
+	    	 */
 	    	var promesa_de_llenar_la_base = new Promise(function(resolve, reject) {
 			  // do a thing, possibly async, then…
 			  localforage.setItem('materias', _MATERIAS).then(
