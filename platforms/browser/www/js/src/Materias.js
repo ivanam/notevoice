@@ -117,6 +117,36 @@
 
 			return promesa_de_llenar_la_base;
 
+	    },
+
+	    guardar_materia: function guardar_materia (materia) {
+	    	/*
+	    	 * Guarda la materia en la Base de Datos.
+	    	 * .
+	    	 */
+			var insertar_materia_en_base = new Promise(function(resolve, reject) {
+			  // do a thing, possibly async, then…
+			  localforage.getItem('materias').then(
+			  	(materias) => {
+					if ( materias ) {
+						/* everything turned out fine */
+						materias.push(materia);
+						var promesa_nueva = new Promise( (resolve, reject) => {
+							localforage.setItem('materias', materias).then(
+			  					(materias) => {
+			  						resolve(materias);
+			  					});
+						})
+
+						resolve(promesa_nueva);
+					}
+					else {
+						reject(Error("No se pudo cargar materias"));
+					}	
+			  	}
+			  )
+			});
+			return insertar_materia_en_base;	    	
 	    }
 
 	};
