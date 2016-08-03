@@ -35,7 +35,6 @@
     </head>
     <body>
         <div data-role="page" id="listadoMaterias">
-
             <div data-role="header">
                 <h1>Notevoice</h1>
             </div><!-- /header -->
@@ -44,24 +43,42 @@
                 <h4>Todas las materias:</h4>
                 <dl id="staff" class="listado__de__materias">
                     <!-- listado__de__materias se usa como identificador para cargar materias dinamicamenchi -->
-                    
-                    <!-- <dt><a href="#materia_tnt">TNT</a></dt> -->
-                    <!-- <dt><a href="#materia_1">1</a></dt> -->
-                    <!-- <dt><a href="#materia_2">2</a></dt> -->
-                    <!-- ... -->
-                    <!-- ... -->
-                    <!-- ... -->
-                    <!-- <dt><a href="#materia_N">N</a></dt> -->
-
                 </dl>
             </div><!-- /content -->
 
-            <a href="#" data-role="button" data-icon="plus" data-iconpos="right" data-inline="true" id="nueva_materia">Nueva materia</a>
+            <a href="#altaMateria" data-role="button" data-icon="plus" data-iconpos="right" data-inline="true" id="nueva_materia">Nueva materia</a>
             <div data-role="footer">
                 <h6>Taller de nuevas tecnologías</h6>
             </div><!-- /footer -->
         
         </div><!-- /page -->
+
+
+        <div data-role="page" id="altaMateria">
+            <div data-role="header">
+                <h1>Notevoice</h1>
+            </div><!-- /header -->
+
+            <div data-role="content" id="form_alta">
+                <h4>Alta Materia</h4>
+                <input name="text-id" id="text-id" value="" type="text" placeholder="ID de materia">
+                <input name="text-nombre" id="text-nombre" value="" type="text" placeholder="Nombre de Materia">
+                <input class="text-profesor" value="" type="text" placeholder="Nombre de Profesor">
+                <a href="#" class="ui-btn ui-icon-plus ui-btn-icon-notext ui-corner-all ui-btn-left" data-inline="true" 
+                onclick="btn_new_profesor()"></a>
+                <a href="#listadoMaterias" class="ui-btn ui-icon-back ui-btn-icon-notext ui-corner-all ui-btn-right" data-inline="true" 
+                id="back_materia"></a>
+
+                <a href="#" data-role="button" data-icon="plus" data-iconpos="right" data-inline="true" onclick="agregar_materia()">Agregar</a>
+            </div><!-- /content -->
+            
+
+            <div data-role="footer">
+                <h6>Taller de nuevas tecnologías</h6>
+            </div><!-- /footer -->
+        
+        </div><!-- /page -->
+
 
         <!-- Aca se llena dinamicamente de pages de materias: -->
 
@@ -129,6 +146,7 @@
         <script type="text/javascript" src="js/src/Proyecto.js"></script>
         <script type="text/javascript" src="js/src/Materias.js"></script>
         <script type="text/javascript" src="js/src/main.js"></script>
+        <script type="text/javascript" src="js/src/utils.js"></script>
         <script type="text/javascript">
             // app.initialize();
             notevoice_app.initialize();

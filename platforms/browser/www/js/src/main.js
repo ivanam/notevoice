@@ -9,7 +9,6 @@ var notevoice_app = {
          * Busca las materias y las dibuja en el index.
          * Si las materias no existen en la base, las carga. 
          */
-        this.enlanzarEventos();
         NOTEVOICE.Materias.buscar_todas()
             .then(  // luego, cuando vengan las materias:
                 (materias) => {
@@ -39,9 +38,7 @@ var notevoice_app = {
             // ^-- si se desea cambiar la reprresentacion de una materia en el listado, tocar esta var.
             template_materia_page = $("#materia__page__template").text();  // template de una page (jQuery mobile) para una materia
             // ^-- este template tenemos que ir a buscarlo al index porque es un template mas grande como para tenerlo en un String.
-        
-        // borrar el listado para redibujarlo:
-        $listado_de_materias.empty();
+            
         // Por cada materia:
         for (var i = materias.length - 1; i >= 0; i--) {
             // Cargar los templates:
@@ -56,21 +53,6 @@ var notevoice_app = {
         };
 
     },
-
-    enlanzarEventos: function bindEvents () {
-        $("#nueva_materia").click(
-            () => {
-                console.log("click");
-                NOTEVOICE.Materias.guardar_materia(
-                    { 
-                        id: 16,
-                        nombre: "DESDE BOTON"
-                    })
-                    .then((materias) => {
-                        this.dibujar_materias(materias);
-                    });
-            });
-    }
 
 };
 
