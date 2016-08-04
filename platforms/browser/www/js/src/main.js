@@ -39,6 +39,9 @@ var notevoice_app = {
             template_materia_page = $("#materia__page__template").text();  // template de una page (jQuery mobile) para una materia
             // ^-- este template tenemos que ir a buscarlo al index porque es un template mas grande como para tenerlo en un String.
             
+        //Se limpia el elemento que contiene el listado para luego ser actualizado
+        $listado_de_materias.empty();
+        
         // Por cada materia:
         for (var i = materias.length - 1; i >= 0; i--) {
             // Cargar los templates:

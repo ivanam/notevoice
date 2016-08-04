@@ -1,12 +1,39 @@
 body{
 	text-align: center;
-
 }
-
 .materia{
 	background-color: yellow;
 	color: white;
 	width: 90%;
 	height: 100px;
 	border: 2px solid blue;
+}
+#back_materia{
+	margin-top: -3px;
+}
+.ui-btn:after, .ui-icon-plus:after{
+	background-color: blue;
+}
+.ui-icon-minus:after{
+	background-color: red;
+}
+.ui-controlgroup-controls>.ui-input-text{
+	width: 85%;
+}
+span.ui-icon-plus{
+    float: right;
+    /*margin-right: 5px;*/
+    margin-top: -30px;
+    position: relative;
+    width: 5%;
+}
+span.ui-icon-minus{
+    float: right;
+    /*margin-right: 5px;*/
+    margin-top: -30px;
+    position: relative;
+    width: 5%;
+}
+span.ui-icon-plus:hover, span.ui-icon-minus:hover{
+	cursor:pointer;
 }
