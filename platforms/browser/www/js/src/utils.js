@@ -1,10 +1,10 @@
 function btn_new_profesor(){
+	//maqueta de input para agregar otro profesor y boton para eliminarlo
 	var input_text = "<div class='ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset'>"+
 					 "<input type='text' placeholder='Nombre del Profesor' value='' class='text-profesor'></div>";
 	var btn_eliminar = "<span class='ui-icon-minus ui-btn-icon-notext ui-corner-all ui-btn-right' onclick='btn_delete(this)'>";
-	// $(".ui-input-text").css("width","100%");
-	// $(input_text).insertAfter($(".text-profesor").last().parent());
-	// $(btn_eliminar).insertBefore($(".text-profesor").last().parent());
+	
+	//Se agregar el input despues del ulitmo que existe y el boton antes del reciente agregado
 	$(input_text).insertAfter($(".text-profesor").last().parent());
 	$(btn_eliminar).insertBefore($(".text-profesor").last().parent());
 	// $(".ui-input-text").last().css("width","85%");

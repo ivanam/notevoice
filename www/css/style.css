@@ -37,3 +37,6 @@ span.ui-icon-minus{
 span.ui-icon-plus:hover, span.ui-icon-minus:hover{
 	cursor:pointer;
 }
+.ui-listview > li{
+	margin:	0;
+}
