@@ -36,6 +36,14 @@
     	/*
 			Retorna la promesa de buscar una materia por id
 			using ES6 Promises...
+
+			Ejemplo de uso:
+				NOTEVOICE.Materias.materiaPorId(3).then((materia) => {
+                    console.log("Materia "+materia.nombre);
+                });
+				NOTEVOICE.Materias.materiaPorId("3").then((materia) => {
+                    console.log("Materia "+materia.nombre);
+                });
     	*/
 			return this.buscar_todas().then(function(materias) {
 			    // This code runs once the materias has been loaded
@@ -43,11 +51,11 @@
 			    var materia_encontrada;
 			    var promise = new Promise(function(resolve, reject) {
 					// do a thing, possibly async, then…
-					if ( materia.length ) {
-						reject(Error("No encontre la materia"));
+					if ( materias.length == 0 ) {
+						reject(Error("No encontre la materia length 0"));
 					};
 					for(var i=0, materia = materias[0]; materia = materias[i]; i++){
-		                var mismoId = materia.id === materia_id;
+		                var mismoId = materia.id == materia_id;
 		                if( mismoId )
 		                	materia_encontrada = materia; 
 		            }

@@ -30,6 +30,8 @@
 		},
 	];
 
+	var current_id;
+
 	app.Materias = {
 
 	    materiaPorId: function(materia_id){

@@ -34,65 +34,103 @@
         <title>Notevoice</title>
     </head>
     <body>
-        <!-- ################################################################################################################ -->
         <div data-role="page" id="listadoMaterias">
+
             <div data-role="header">
                 <h1>Notevoice</h1>
             </div><!-- /header -->
+
             <div data-role="content">
                 <h4>Todas las materias:</h4>
                 <dl id="staff" class="listado__de__materias">
                     <!-- listado__de__materias se usa como identificador para cargar materias dinamicamenchi -->
+                    
+                    <!-- <dt><a href="#materia_tnt">TNT</a></dt> -->
+                    <!-- <dt><a href="#materia_1">1</a></dt> -->
+                    <!-- <dt><a href="#materia_2">2</a></dt> -->
+                    <!-- ... -->
+                    <!-- ... -->
+                    <!-- ... -->
+                    <!-- <dt><a href="#materia_N">N</a></dt> -->
+
                 </dl>
             </div><!-- /content -->
-            <a href="#altaMateria" data-role="button" data-icon="plus" data-iconpos="right" data-inline="true" id="nueva_materia">Nueva materia</a>
-            <div data-role="footer" data-position="fixed">
+
+            <a href="#" data-role="button" data-icon="plus" data-iconpos="right" data-inline="true" id="nueva_materia">Nueva materia</a>
+            <div data-role="footer">
                 <h6>Taller de nuevas tecnologías</h6>
             </div><!-- /footer -->
+        
         </div><!-- /page -->
 
-        <!-- ################################################################################################################ -->
-        <div data-role="page" id="altaMateria">
+        <div data-role="page" id="listadoSemanas">
+
             <div data-role="header">
-                <h1>Notevoice</h1>
+                <h1>Notas por semanas</h1>
             </div><!-- /header -->
-            <div data-role="content" id="form_alta">
-                <h4>Alta Materia</h4>
-                <input name="text-id" id="text-id" value="" type="text" placeholder="ID de materia">
-                <input name="text-nombre" id="text-nombre" value="" type="text" placeholder="Nombre de Materia">
-                <div data-role="controlgroup">
-                    <input class="text-profesor" value="" type="text" placeholder="Nombre de Profesor">
-                    <span class="ui-icon-plus ui-btn-icon-notext ui-corner-all ui-btn-right" onclick="btn_new_profesor()">
-                    </span>
-                </div>
 
-                <a href="#" data-role="button" data-icon="plus" data-iconpos="right" data-inline="true" onclick="agregar_materia()">Agregar</a>
+            <div data-role="content">
+                <h4>Semanas:</h4>
+                <dl id="staff" class="listado__de__semanas">
+                    <!-- listado__de__materias se usa como identificador para cargar materias dinamicamenchi -->
+                    
+                    <dt><a href="#" class="ver_notas" id="semana1">Semana 1</a></dt>
+                    <dt><a href="#" class="ver_notas" id="semana2">Semana 2</a></dt>
+                    <dt><a href="#" class="ver_notas" id="semana3">Semana 3</a></dt>
+                    <dt><a href="#" class="ver_notas" id="semana4">Semana 4</a></dt>
+                    <dt><a href="#" class="ver_notas" id="semana5">Semana 5</a></dt>
+                    <dt><a href="#" class="ver_notas" id="semana6">Semana 6</a></dt>
+                    <dt><a href="#" class="ver_notas" id="semana7">Semana 7</a></dt>
+                    <dt><a href="#" class="ver_notas" id="semana8">Semana 8</a></dt>
+                    <dt><a href="#" class="ver_notas" id="semana9">Semana 9</a></dt>
+                    <dt><a href="#" class="ver_notas" id="semana10">Semana 10</a></dt>
+                    <dt><a href="#" class="ver_notas" id="semana11">Semana 11</a></dt>
+                    <dt><a href="#" class="ver_notas" id="semana12">Semana 12</a></dt>
+                    <dt><a href="#" class="ver_notas" id="semana13">Semana 13</a></dt>
+                    <dt><a href="#" class="ver_notas" id="semana14">Semana 14</a></dt>
+                    <dt><a href="#" class="ver_notas" id="semana15">Semana 15</a></dt>
+
+                </dl>
             </div><!-- /content -->
-            <div data-role="footer" data-position="fixed">
+            <a href='#listadoMaterias' data-role="button" data-icon="home" data-inline="true">Volver a Listado</a>
+            <div data-role="footer">
                 <h6>Taller de nuevas tecnologías</h6>
-                <a href="#listadoMaterias" class="ui-btn ui-icon-back ui-btn-icon-notext ui-corner-all ui-btn-right" data-inline="true" id="back_materia"></a>
             </div><!-- /footer -->
+        
         </div><!-- /page -->
 
-        <!-- ################################################################################################################ -->
-        <!-- template utilizado por el main, para agregar las pages de las materias que recupera de la base: -->
-        <script type="text/html" id="semana__page__template">
-            <div data-role='page' id='semana_{{id}}'>
-                <div data-role='header'>
-                    <h1>NOTEVOICE</h1>
-                </div>
-                <div data-role='content'>
-                    <ul data-role="listview" data-inset="true" id="semana_{{id}}_{{id}}" class="listado__de__semanas">
-                    </ul>
-                </div>
-                <div data-role='footer' data-position='fixed'>
-                    <h6>Taller de nuevas tecnologías</h6>
-                <a href="#listadoMaterias" class="ui-btn ui-icon-back ui-btn-icon-notext ui-corner-all ui-btn-right" data-inline="true" id="back_materia"></a>
-                </div>
-            </div>
-        </script>
+        <!-- Aca se llena dinamicamente de pages de materias: -->
 
-        <!-- ################################################################################################################ -->
+<!--    Ejemplo del div template (materia__page__template) cargado:
+
+        <div data-role="page" id="materia_tnt">
+
+            <div data-role="header">
+                <h1>TNT</h1>
+            </div><
+
+            <div data-role="content">
+                <p id="descripcion">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <h4>Staff</h4>
+                <dl id="staff">
+                    <dt>Diego Firmenich</dt>
+                    <dt>Cristian Parisse</dt>
+                    <dt>Sebastian Schanz</dt>
+                </dl>
+                <p><a href="#listadoMaterias">Volver a Listado</a></p>
+            </div><
+
+            <div data-role="footer">
+                <h4>Page Footer</h4>
+            </div><
+        </div>
+ -->
+
         <!-- template utilizado por el main, para agregar las pages de las materias que recupera de la base: -->
         <script type="text/html" id="materia__page__template">
             <div data-role='page' id='materia_{{id}}'>
@@ -108,13 +146,12 @@
                             <li>{{.}}</li>
                         {{/profesores}}
                     </ul>
-                    <a href="#" data-role="button" data-icon="arrow-r" data-iconpos="right" data-inline="true" 
-                        onclick="notevoice_app.dibujar_semanas({{id}})">Ver notas</a>
+                    <a href='#listadoMaterias' data-role="button" data-icon="home" data-inline="true">Volver a Listado</a>
+                    <a href="#listadoSemanas" data-role="button" data-icon="arrow-r" data-iconpos="right" data-inline="true">Ver notas</a>
                 </div>
 
-                <div data-role='footer' data-position='fixed'>
-                    <h6>Taller de nuevas tecnologías</h6>
-                <a href="#listadoMaterias" class="ui-btn ui-icon-back ui-btn-icon-notext ui-corner-all ui-btn-right" data-inline="true" id="back_materia"></a>
+                <div data-role='footer'>
+                    <h4>---</h4>
                 </div>
             </div>
         </script>
@@ -128,7 +165,6 @@
         <script type="text/javascript" src="js/src/Proyecto.js"></script>
         <script type="text/javascript" src="js/src/Materias.js"></script>
         <script type="text/javascript" src="js/src/main.js"></script>
-        <script type="text/javascript" src="js/src/utils.js"></script>
         <script type="text/javascript">
             // app.initialize();
             notevoice_app.initialize();
