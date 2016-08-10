@@ -1,6 +1,8 @@
 body{
 	text-align: center;
+
 }
+
 .materia{
 	background-color: yellow;
 	color: white;
@@ -8,7 +10,7 @@ body{
 	height: 100px;
 	border: 2px solid blue;
 }
-#back_materia{
+.back_materia{
 	margin-top: -3px;
 }
 .ui-btn:after, .ui-icon-plus:after{
@@ -16,6 +18,9 @@ body{
 }
 .ui-icon-minus:after{
 	background-color: red;
+}
+.ui-icon-carat-r:after{
+	background-color: #6FB3C2;
 }
 .ui-controlgroup-controls>.ui-input-text{
 	width: 85%;
@@ -36,7 +41,4 @@ span.ui-icon-minus{
 }
 span.ui-icon-plus:hover, span.ui-icon-minus:hover{
 	cursor:pointer;
-}
-.ui-listview > li{
-	margin:	0;
 }
