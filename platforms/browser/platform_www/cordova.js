@@ -19,6 +19,7 @@
  under the License.
 */
 ;(function() {
+
 var PLATFORM_VERSION_BUILD_LABEL = '4.0.0';
 // file: src/scripts/require.js
 
@@ -29,6 +30,7 @@ var require,
     define;
 
 (function () {
+    console.log("kjJASHDFJKSBADHFHASFJSF");
     var modules = {},
     // Stack of moduleIds currently being built.
         requireStack = [],

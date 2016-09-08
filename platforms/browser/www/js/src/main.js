@@ -29,6 +29,7 @@ var notevoice_app = {
                 }
             )  // fin catch;
         this.enlazar_eventos();
+        this.setup_comandos_de_voz();
     },
 
     dibujar_materias: function (materias) {
@@ -67,6 +68,8 @@ var notevoice_app = {
         setTimeout(function() {
             $(".ver_semanas").click(notevoice_app.ver_semanas);    
         }, 500);
+        $("#btn-comenzar-a-grabar").click(this.comenzar_a_grabar);
+        $("#btn-terminar-de-grabar").click(this.terminar_de_grabar);
     },
 
     nueva_materia: function nueva_materia () {
@@ -130,7 +133,37 @@ var notevoice_app = {
         $("#text-id")[0].value = "";
         $("#text-nombre")[0].value = "";
         $(".text-profesor")[0].value = "";
-    }
+    },
+
+    setup_comandos_de_voz: function setup_comandos_de_voz () {
+        /*
+         *  Configura el plugin de comandos de voz. 
+         */
+        if (annyang) {
+
+            annyang.setLanguage("es-AR");
+            // Let's define a command.
+            var commands = {
+                'nueva nota *nota': function(nota) {
+                    console.log('Nueva nota: '+nota);
+                },
+            };
+
+            // Add our commands to annyang
+            annyang.addCommands(commands);
+
+            // Start listening.
+            console.log("Escuchando...");
+        }
+    }, // setup_comandos_de_voz
+
+    comenzar_a_grabar: function start_annyang (argument) {
+        annyang.start();
+    },
+
+    terminar_de_grabar: function stop_annyang (argument) {
+        annyang.abort();
+    },
 };
 
 
