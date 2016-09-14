@@ -16,14 +16,25 @@ body{
 .ui-btn:after, .ui-icon-plus:after{
 	background-color: blue;
 }
-.ui-icon-minus:after{
+.ui-icon-minus:after, .ui-icon-microphone-slash:after{
 	background-color: red;
+}
+.ui-icon-microphone:after{
+	background-color: green;
 }
 .ui-icon-carat-r:after{
 	background-color: #6FB3C2;
 }
 .ui-controlgroup-controls>.ui-input-text{
 	width: 85%;
+}
+a.ui-icon-microphone, a.ui-icon-microphone-slash{
+    float: right;
+    height: 28px;
+    width: 28px;
+}
+a.ui-icon-microphone.ui-btn-icon-notext.ui-corner-all,a.ui-icon-microphone-slash.ui-btn-icon-notext.ui-corner-all{
+	top: 0;
 }
 span.ui-icon-plus{
     float: right;
