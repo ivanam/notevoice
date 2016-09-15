@@ -42,7 +42,6 @@
         <div data-role="page" id="listadoMaterias">
             <div data-role="header">
                 <h1>Notevoice</h1>
-                <a href="#" id="btn-grabar-note-voice" class="ui-btn ui-icon-microphone-slash ui-btn-icon-notext ui-corner-all ui-btn-right record_note" data-isClicked="true"></a>
             </div><!-- /header -->
 
             <div data-role="content">
@@ -53,8 +52,11 @@
             </div><!-- /content -->
 
             <a href="#" data-role="button" data-icon="plus" data-iconpos="right" data-inline="true" id="nueva_materia">Nueva materia</a>
-            <button id="btn-comenzar-a-grabar">Grabar</button>
-            <button id="btn-terminar-de-grabar">Terminar</button>
+            <div class="envoltorio-record-button">
+                <!-- <button id="btn-comenzar-a-grabar" class="record-button">Grabar</button> -->
+                <a href="#" id="btn-grabar-note-voice" class="ui-btn ui-icon-microphone-slash ui-btn-icon-notext ui-corner-all ui-btn-right record_note" data-isClicked="true"></a>
+            </div>
+            <!-- <button id="btn-terminar-de-grabar">Terminar</button> -->
             <div data-role="footer" data-position="fixed">
                 <h6>Taller de nuevas tecnologías</h6>
             </div><!-- /footer -->

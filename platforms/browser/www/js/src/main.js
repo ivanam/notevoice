@@ -159,16 +159,18 @@ var notevoice_app = {
     }, // setup_comandos_de_voz
 
     manejador_grabacion: function start_stop_annyang(argument) {
-        var $btn = $('#btn-grabar-note-voice');
-        // if (annyang.isListening()) {
-        if ($btn.data('isclicked')) { //reemplazar este if por if de arriba, annygan no me funciona en el trabajo por falta de microfono
-            // annyang.start();
-            $btn.removeClass('ui-icon-microphone').addClass('ui-icon-microphone-slash')
-            $btn.data('isclicked',false); //reemplazar este paso por el annyang.start
+        console.log(annyang);
+        if (annyang.isListening()) {
+            $(this).removeClass('ui-icon-microphone').addClass('ui-icon-microphone-slash')
+            $(this).data('isclicked',false); //reemplazar este paso por el annyang.start
+            console.log("GRABANDO OFF");   
+            annyang.abort();
+            
         }else{
-            // annyang.abort();
-            $btn.removeClass('ui-icon-microphone-slash').addClass('ui-icon-microphone')
-            $btn.data('isclicked',true);// idem que arriba
+            console.log("GRABANDO ON");   
+            annyang.start();
+            $(this).removeClass('ui-icon-microphone-slash').addClass('ui-icon-microphone')
+            $(this).data('isclicked',true);// idem que arriba
         }
     },
 
