@@ -68,8 +68,9 @@ var notevoice_app = {
         setTimeout(function() {
             $(".ver_semanas").click(notevoice_app.ver_semanas);    
         }, 500);
-        $("#btn-comenzar-a-grabar").click(this.comenzar_a_grabar);
-        $("#btn-terminar-de-grabar").click(this.terminar_de_grabar);
+        // $("#btn-comenzar-a-grabar").click(this.comenzar_a_grabar);
+        // $("#btn-terminar-de-grabar").click(this.terminar_de_grabar);
+        $("#btn-grabar-note-voice").click(this.manejador_grabacion);
     },
 
     nueva_materia: function nueva_materia () {
@@ -157,13 +158,27 @@ var notevoice_app = {
         }
     }, // setup_comandos_de_voz
 
-    comenzar_a_grabar: function start_annyang (argument) {
+    manejador_grabacion: function start_stop_annyang(argument) {
+        var $btn = $('#btn-grabar-note-voice');
+        // if (annyang.isListening()) {
+        if ($btn.data('isclicked')) { //reemplazar este if por if de arriba, annygan no me funciona en el trabajo por falta de microfono
+            // annyang.start();
+            $btn.removeClass('ui-icon-microphone').addClass('ui-icon-microphone-slash')
+            $btn.data('isclicked',false); //reemplazar este paso por el annyang.start
+        }else{
+            // annyang.abort();
+            $btn.removeClass('ui-icon-microphone-slash').addClass('ui-icon-microphone')
+            $btn.data('isclicked',true);// idem que arriba
+        }
+    },
+
+    /*comenzar_a_grabar: function start_annyang (argument) {
         annyang.start();
     },
 
     terminar_de_grabar: function stop_annyang (argument) {
         annyang.abort();
-    },
+    },*/
 };
 
 
