@@ -54,7 +54,7 @@
             <a href="#" data-role="button" data-icon="plus" data-iconpos="right" data-inline="true" id="nueva_materia">Nueva materia</a>
             <div class="envoltorio-record-button">
                 <!-- <button id="btn-comenzar-a-grabar" class="record-button">Grabar</button> -->
-                <a href="#" id="btn-grabar-note-voice" class="ui-btn ui-icon-microphone-slash ui-btn-icon-notext ui-corner-all ui-btn-right record_note" data-isClicked="true"></a>
+                <a href="#" id="btn-grabar-note-voice" class="ui-btn ui-icon-microphone ui-btn-icon-notext ui-corner-all ui-btn-right record_note" data-isClicked="true"></a>
             </div>
             <!-- <button id="btn-terminar-de-grabar">Terminar</button> -->
             <div data-role="footer" data-position="fixed">
@@ -212,6 +212,24 @@
             </div><!-- /footer -->
         
         </div><!-- /page -->
+
+
+        <!-- ############################### Nota resultado ############################### -->
+        
+        <div data-role="page" id="notaTranscripcion">
+            <div data-role="header">
+                <h1>Nota</h1>
+            </div><!-- /header -->
+            <div data-role="content" id="form_alta">
+                <h4>Transcripción de la Nota</h4>
+                <p id="nota_transcripcion"></p>
+            </div><!-- /content -->
+            <div data-role="footer" data-position="fixed">
+                <h6>Taller de nuevas tecnologías</h6>
+                <a href="#listadoMaterias" class="ui-btn ui-icon-back ui-btn-icon-notext ui-corner-all ui-btn-right back_materia" data-inline="true"></a>
+            </div><!-- /footer -->
+        </div><!-- /page -->
+
 
         <!-- ######################################################################################################### -->
         <!-- ######################################## TEMPLATES ###################################################### -->

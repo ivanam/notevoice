@@ -147,6 +147,9 @@ var notevoice_app = {
             var commands = {
                 'nueva nota *nota': function(nota) {
                     console.log('Nueva nota: '+nota);
+                    $("#nota_transcripcion").text(nota);
+                    notevoice_app.manejador_grabacion();
+                    $.mobile.changePage($("#notaTranscripcion"));
                 },
             };
 
@@ -161,16 +164,16 @@ var notevoice_app = {
     manejador_grabacion: function start_stop_annyang(argument) {
         console.log(annyang);
         if (annyang.isListening()) {
-            $(this).removeClass('ui-icon-microphone').addClass('ui-icon-microphone-slash')
-            $(this).data('isclicked',false); //reemplazar este paso por el annyang.start
+            $("#btn-grabar-note-voice").removeClass('ui-icon-microphone-slash').addClass('ui-icon-microphone')
+            // $(this).data('isclicked',false); //reemplazar este paso por el annyang.start
             console.log("GRABANDO OFF");   
             annyang.abort();
             
         }else{
             console.log("GRABANDO ON");   
             annyang.start();
-            $(this).removeClass('ui-icon-microphone-slash').addClass('ui-icon-microphone')
-            $(this).data('isclicked',true);// idem que arriba
+            $("#btn-grabar-note-voice").removeClass('ui-icon-microphone').addClass('ui-icon-microphone-slash')
+            // $(this).data('isclicked',true);// idem que arriba
         }
     },
 
