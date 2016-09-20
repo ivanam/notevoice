@@ -71,6 +71,8 @@ var notevoice_app = {
         // $("#btn-comenzar-a-grabar").click(this.comenzar_a_grabar);
         // $("#btn-terminar-de-grabar").click(this.terminar_de_grabar);
         $("#btn-grabar-note-voice").click(this.manejador_grabacion);
+        $("#btn-grabar-note-voice2").click(this.manejador_grabacion);
+        $("#guardar_nota").click(this.guardar_nota_en_base);
     },
 
     nueva_materia: function nueva_materia () {
@@ -80,6 +82,8 @@ var notevoice_app = {
     ver_notas: function ver_notas () {
         var semana = $(this).attr("id");
         console.log("Ver notas de la semana: "+semana+" materia: "+notevoice_app.CURRENT_MATERIA_ID);
+        $('#nota_transcripcion').data('materia',notevoice_app.CURRENT_MATERIA_ID);
+        $('#nota_transcripcion').data('semana',semana);
     },
     
     ver_semanas: function ver_semanas () {
@@ -164,7 +168,7 @@ var notevoice_app = {
     manejador_grabacion: function start_stop_annyang(argument) {
         console.log(annyang);
         if (annyang.isListening()) {
-            $("#btn-grabar-note-voice").removeClass('ui-icon-microphone-slash').addClass('ui-icon-microphone')
+            $("#btn-grabar-note-voice2").removeClass('ui-icon-microphone-slash').addClass('ui-icon-microphone')
             // $(this).data('isclicked',false); //reemplazar este paso por el annyang.start
             console.log("GRABANDO OFF");   
             annyang.abort();
@@ -172,10 +176,17 @@ var notevoice_app = {
         }else{
             console.log("GRABANDO ON");   
             annyang.start();
-            $("#btn-grabar-note-voice").removeClass('ui-icon-microphone').addClass('ui-icon-microphone-slash')
+            $("#btn-grabar-note-voice2").removeClass('ui-icon-microphone').addClass('ui-icon-microphone-slash')
             // $(this).data('isclicked',true);// idem que arriba
         }
     },
+
+    guardar_nota_en_base: function guardar_nota_en_base () {
+        var nota = $('#nota_transcripcion').text();
+        var materia = $('#nota_transcripcion').data('materia');
+        var semana = $('#nota_transcripcion').data('semana');
+        console.log("Guardando materia: "+materia+" semana: "+semana+" nota: "+nota);
+    }
 
     /*comenzar_a_grabar: function start_annyang (argument) {
         annyang.start();

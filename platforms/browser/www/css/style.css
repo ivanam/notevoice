@@ -10,8 +10,8 @@ body{
 	height: 100px;
 	border: 2px solid blue;
 }
-.back_materia{
-	margin-top: -3px;
+.back_materia, .save-nota{
+    margin-top: -3px;
 }
 .ui-btn:after, .ui-icon-plus:after{
 	background-color: blue;

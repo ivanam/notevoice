@@ -129,6 +129,7 @@
 
             <div data-role="header">
                 <h1>Detalles de la semana</h1>
+                <a href="#" id="btn-grabar-note-voice2" class="ui-btn ui-icon-microphone ui-btn-icon-notext ui-corner-all ui-btn-right record_note"></a>
             </div><!-- /header -->
 
             <div data-role="content">
@@ -214,7 +215,7 @@
         </div><!-- /page -->
 
 
-        <!-- ############################### Nota resultado ############################### -->
+        <!-- ############################### Pagina para volcar el resultado de la nota ############################### -->
         
         <div data-role="page" id="notaTranscripcion">
             <div data-role="header">
@@ -222,9 +223,10 @@
             </div><!-- /header -->
             <div data-role="content" id="form_alta">
                 <h4>Transcripción de la Nota</h4>
-                <p id="nota_transcripcion"></p>
+                <p id="nota_transcripcion" data-materia="" data-semana=""></p>
             </div><!-- /content -->
             <div data-role="footer" data-position="fixed">
+                <a href="#" id="guardar_nota" class="ui-btn ui-icon-save ui-btn-icon-notext ui-corner-all ui-btn-left save-nota"></a>
                 <h6>Taller de nuevas tecnologías</h6>
                 <a href="#listadoMaterias" class="ui-btn ui-icon-back ui-btn-icon-notext ui-corner-all ui-btn-right back_materia" data-inline="true"></a>
             </div><!-- /footer -->
