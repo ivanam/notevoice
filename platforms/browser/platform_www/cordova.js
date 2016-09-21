@@ -30,7 +30,6 @@ var require,
     define;
 
 (function () {
-    console.log("kjJASHDFJKSBADHFHASFJSF");
     var modules = {},
     // Stack of moduleIds currently being built.
         requireStack = [],
