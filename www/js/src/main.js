@@ -86,7 +86,7 @@ var notevoice_app = {
     },
     
     ver_semanas: function ver_semanas () {
-        var materia_id = $(this).data("materiaid");
+        var materia_id = $(this).data('materiaid');
         notevoice_app.CURRENT_MATERIA_ID = materia_id;
     },
 

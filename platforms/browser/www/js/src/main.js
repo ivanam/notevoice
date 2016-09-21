@@ -1,7 +1,7 @@
 /*
  * Aplicacion!
  */
-var element;
+
 var notevoice_app = {
     CURRENT_MATERIA_ID: -1,
     // Application Constructor
@@ -65,13 +65,10 @@ var notevoice_app = {
         $("#nueva_materia").click(this.nueva_materia);
         $(".ver_notas").click(this.ver_notas);
         $("#new_profesor").click(this.nuevo_profesor);
-        // $(".btn_delete").click(this.eliminar_inputs);
         $("#agregar_materia").click(this.agregar_materia);
         setTimeout(function() {
             $(".ver_semanas").click(notevoice_app.ver_semanas);    
         }, 500);
-        // $("#btn-comenzar-a-grabar").click(this.comenzar_a_grabar);
-        // $("#btn-terminar-de-grabar").click(this.terminar_de_grabar);
         $("#btn-grabar-note-voice").click(this.manejador_grabacion);
         $("#guardar_nota").click(this.guardar_nota_en_base);
     },
@@ -89,7 +86,7 @@ var notevoice_app = {
     },
     
     ver_semanas: function ver_semanas () {
-        var materia_id = $(this).data("materiaid");
+        var materia_id = $(this).data('materiaid');
         notevoice_app.CURRENT_MATERIA_ID = materia_id;
     },
 
