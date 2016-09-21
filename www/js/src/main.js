@@ -37,7 +37,8 @@ var notevoice_app = {
          * Dibuja el listado de materias y las pages de mas materias en el index.
          */
         var $listado_de_materias = $(".listado__de__materias"),  // elemento del DOM donde van las materias listadas.
-            template_materia_en_lista = "<dt><a href='#materia_{{id}}' class='ver_semanas' materia-id={{id}}> {{nombre}}</dt>",  // template de un item materia, en el listado
+            // template_materia_en_lista = "<dt><a href='#materia_{{id}}' class='ver_semanas' materia-id={{id}}> {{nombre}}</dt>",  // template de un item materia, en el listado
+            template_materia_en_lista = "<li><a href='#materia_{{id}}' class='ver_semanas' data-materiaid={{id}}>{{nombre}}</a></li>",
             // ^-- si se desea cambiar la reprresentacion de una materia en el listado, tocar esta var.
             template_materia_page = $("#materia__page__template").text();  // template de una page (jQuery mobile) para una materia
             // ^-- este template tenemos que ir a buscarlo al index porque es un template mas grande como para tenerlo en un String.
@@ -53,6 +54,7 @@ var notevoice_app = {
             // Y appendearlo a los elementos del DOM correspondientes:
             // - Item al listado de materias:
             $listado_de_materias.append(html_materia_en_lista);
+            $listado_de_materias.listview("refresh");
             // - Toda la page de materias:
             $("body").append(html_materia_page);
         };
@@ -63,19 +65,16 @@ var notevoice_app = {
         $("#nueva_materia").click(this.nueva_materia);
         $(".ver_notas").click(this.ver_notas);
         $("#new_profesor").click(this.nuevo_profesor);
-        $(".btn_delete").click(this.eliminar_inputs);
         $("#agregar_materia").click(this.agregar_materia);
         setTimeout(function() {
             $(".ver_semanas").click(notevoice_app.ver_semanas);    
         }, 500);
-        // $("#btn-comenzar-a-grabar").click(this.comenzar_a_grabar);
-        // $("#btn-terminar-de-grabar").click(this.terminar_de_grabar);
         $("#btn-grabar-note-voice").click(this.manejador_grabacion);
-        $("#btn-grabar-note-voice2").click(this.manejador_grabacion);
         $("#guardar_nota").click(this.guardar_nota_en_base);
     },
 
     nueva_materia: function nueva_materia () {
+        localStorage.setItem("cantProfesor",1);
         $.mobile.changePage($("#altaMateria"));
     },
 
@@ -87,24 +86,26 @@ var notevoice_app = {
     },
     
     ver_semanas: function ver_semanas () {
-        var materia_id = $(this).attr("materia-id");
+        var materia_id = $(this).data("materiaid");
         notevoice_app.CURRENT_MATERIA_ID = materia_id;
     },
 
     eliminar_inputs: function eliminar_inputs(){
-        console.log("eliminando boton");
-        // $(this).previousElementSibling.remove();   $(this) tiene que sel el elemento del boton con clase btn_delete que haya sido clickeado
-        // $(this).remove();
+        $(this)[0].previousElementSibling.remove();  // $(this) tiene que sel el elemento del boton con clase btn_delete que haya sido clickeado
+        $(this)[0].remove();
     },
 
     nuevo_profesor: function nuevo_profesor () {
+        var cant = parseInt(localStorage.getItem("cantProfesor"));
         //maqueta de input para agregar otro profesor y boton para eliminarlo
         var input_text = "<div class='ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset'>"+
                          "<input type='text' placeholder='Nombre del Profesor' value='' class='text-profesor'></div>";
-        var btn_eliminar = "<span class='ui-icon-minus ui-btn-icon-notext ui-corner-all ui-btn-right btn_delete'>";
+        var btn_eliminar = "<span id='delete_profesor_"+cant+"' class='ui-icon-minus ui-btn-icon-notext ui-corner-all ui-btn-right btn_delete'>";
         
         $(input_text).insertAfter($(".text-profesor").last().parent());
         $(btn_eliminar).insertBefore($(".text-profesor").last().parent());
+        $("#delete_profesor_"+cant).click(notevoice_app.eliminar_inputs);
+        localStorage.setItem("cantProfesor", cant+1);
     },
 
     agregar_materia: function agregar_materia () {
@@ -168,16 +169,14 @@ var notevoice_app = {
     manejador_grabacion: function start_stop_annyang(argument) {
         console.log(annyang);
         if (annyang.isListening()) {
-            $("#btn-grabar-note-voice2").removeClass('ui-icon-microphone-slash').addClass('ui-icon-microphone')
-            // $(this).data('isclicked',false); //reemplazar este paso por el annyang.start
+            $("#btn-grabar-note-voice").removeClass('ui-icon-microphone-slash').addClass('ui-icon-microphone')
             console.log("GRABANDO OFF");   
             annyang.abort();
             
         }else{
             console.log("GRABANDO ON");   
             annyang.start();
-            $("#btn-grabar-note-voice2").removeClass('ui-icon-microphone').addClass('ui-icon-microphone-slash')
-            // $(this).data('isclicked',true);// idem que arriba
+            $("#btn-grabar-note-voice").removeClass('ui-icon-microphone').addClass('ui-icon-microphone-slash')
         }
     },
 
@@ -187,14 +186,6 @@ var notevoice_app = {
         var semana = $('#nota_transcripcion').data('semana');
         console.log("Guardando materia: "+materia+" semana: "+semana+" nota: "+nota);
     }
-
-    /*comenzar_a_grabar: function start_annyang (argument) {
-        annyang.start();
-    },
-
-    terminar_de_grabar: function stop_annyang (argument) {
-        annyang.abort();
-    },*/
 };
 
 
