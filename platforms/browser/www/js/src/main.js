@@ -3,9 +3,17 @@
  */
 
 var notevoice_app = {
-    CURRENT_MATERIA_ID: -1,
+    
     // Application Constructor
     initialize: function() {
+    
+        /*
+            Se inicializa variables para controlar semana y materia en la
+            que se encuentra transitando la aplicacion
+        */
+        localStorage.setItem("materia_actual", -1);
+        localStorage.setItem("semana_actual", -1);
+
         /*
          * Busca las materias y las dibuja en el index.
          * Si las materias no existen en la base, las carga. 
@@ -29,7 +37,6 @@ var notevoice_app = {
                 }
             )  // fin catch;
         this.enlazar_eventos();
-        this.setup_comandos_de_voz();
     },
 
     dibujar_materias: function (materias) {
@@ -80,14 +87,12 @@ var notevoice_app = {
 
     ver_notas: function ver_notas () {
         var semana = $(this).attr("id");
-        console.log("Ver notas de la semana: "+semana+" materia: "+notevoice_app.CURRENT_MATERIA_ID);
-        $('#nota_transcripcion').data('materia',notevoice_app.CURRENT_MATERIA_ID);
-        $('#nota_transcripcion').data('semana',semana);
+        localStorage.setItem("semana_actual", semana);
     },
     
     ver_semanas: function ver_semanas () {
         var materia_id = $(this).data('materiaid');
-        notevoice_app.CURRENT_MATERIA_ID = materia_id;
+        localStorage.setItem("materia_actual", materia_id);
     },
 
     eliminar_inputs: function eliminar_inputs(){
@@ -141,43 +146,19 @@ var notevoice_app = {
         $(".text-profesor")[0].value = "";
     },
 
-    setup_comandos_de_voz: function setup_comandos_de_voz () {
-        /*
-         *  Configura el plugin de comandos de voz. 
-         */
-        if (annyang) {
+    manejador_grabacion: function comerzar_captura() {
+        var maxMatches = 1;
+        var promptString = "Hable Ahora!"; // optional
+        var language = "es-AR";                     // optional
+        window.plugins.speechrecognizer.startRecognize(function(result){
+            $('#nota_transcripcion').text(result);
+            $('#nota_semana').text(localStorage.getItem("semana_actual"));
+            $('#nota_materia').text(localStorage.getItem("materia_actual"));
+            $.mobile.changePage($("#notaTranscripcion"));
 
-            annyang.setLanguage("es-AR");
-            // Let's define a command.
-            var commands = {
-                'nueva nota *nota': function(nota) {
-                    console.log('Nueva nota: '+nota);
-                    $("#nota_transcripcion").text(nota);
-                    notevoice_app.manejador_grabacion();
-                    $.mobile.changePage($("#notaTranscripcion"));
-                },
-            };
-
-            // Add our commands to annyang
-            annyang.addCommands(commands);
-
-            // Start listening.
-            console.log("Escuchando...");
-        }
-    }, // setup_comandos_de_voz
-
-    manejador_grabacion: function start_stop_annyang(argument) {
-        console.log(annyang);
-        if (annyang.isListening()) {
-            $("#btn-grabar-note-voice").removeClass('ui-icon-microphone-slash').addClass('ui-icon-microphone')
-            console.log("GRABANDO OFF");   
-            annyang.abort();
-            
-        }else{
-            console.log("GRABANDO ON");   
-            annyang.start();
-            $("#btn-grabar-note-voice").removeClass('ui-icon-microphone').addClass('ui-icon-microphone-slash')
-        }
+        }, function(errorMessage){
+            console.log("Error message: " + errorMessage);
+        }, maxMatches, promptString, language);
     },
 
     guardar_nota_en_base: function guardar_nota_en_base () {

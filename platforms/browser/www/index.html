@@ -93,7 +93,7 @@
 
             <div data-role="content">
                 <h4>Semanas:</h4>
-                <ul id="staff" class="listado__de__semanas" data-role="listview">
+                <ul class="listado__de__semanas" data-role="listview">
                     <!-- listado__de__materias se usa como identificador para cargar materias dinamicamenchi -->
                     <li><a href="#detalleSemana" class="ver_notas" id="semana1">Semana 1</a></li>
                     <li><a href="#detalleSemana" class="ver_notas" id="semana2">Semana 2</a></li>
@@ -132,19 +132,19 @@
                 <h4>Semana:</h4>
                 <p>Desde donde hasta donde</p>
                 <h4>Notas:</h4>
-                <dl id="staff" class="listado__de__notas">
+                <dl class="listado__de__notas">
                     <!-- listado__de__notas se usa como identificador para cargar materias dinamicamenchi -->
                     
-                    <dt><a href="#detalleNota" class="ver_notas" id="semana1">Nota 1</a></dt>
-                    <dt><a href="#detalleNota" class="ver_notas" id="semana2">Nota 2</a></dt>
-                    <dt><a href="#detalleNota" class="ver_notas" id="semana3">Nota 3</a></dt>
-                    <dt><a href="#detalleNota" class="ver_notas" id="semana4">Nota 4</a></dt>
-                    <dt><a href="#detalleNota" class="ver_notas" id="semana5">Nota 5</a></dt>
-                    <dt><a href="#detalleNota" class="ver_notas" id="semana6">Nota 6</a></dt>
-                    <dt><a href="#detalleNota" class="ver_notas" id="semana7">Nota 7</a></dt>
-                    <dt><a href="#detalleNota" class="ver_notas" id="semana8">Nota 8</a></dt>
-                    <dt><a href="#detalleNota" class="ver_notas" id="semana9">Nota 9</a></dt>
-                    <dt><a href="#detalleNota" class="ver_notas" id="semana10">Nota 10</a></dt>
+                    <dt><a href="#detalleNota" class="ver_notas">Nota 1</a></dt>
+                    <dt><a href="#detalleNota" class="ver_notas">Nota 2</a></dt>
+                    <dt><a href="#detalleNota" class="ver_notas">Nota 3</a></dt>
+                    <dt><a href="#detalleNota" class="ver_notas">Nota 4</a></dt>
+                    <dt><a href="#detalleNota" class="ver_notas">Nota 5</a></dt>
+                    <dt><a href="#detalleNota" class="ver_notas">Nota 6</a></dt>
+                    <dt><a href="#detalleNota" class="ver_notas">Nota 7</a></dt>
+                    <dt><a href="#detalleNota" class="ver_notas">Nota 8</a></dt>
+                    <dt><a href="#detalleNota" class="ver_notas">Nota 9</a></dt>
+                    <dt><a href="#detalleNota" class="ver_notas">Nota 10</a></dt>
 
                 </dl>
 
@@ -219,7 +219,9 @@
             </div><!-- /header -->
             <div data-role="content" id="form_alta">
                 <h4>Transcripción de la Nota</h4>
-                <p id="nota_transcripcion" data-materia="" data-semana=""></p>
+                <p id="nota_semana"></p>
+                <p id="nota_materia"></p>
+                <p id="nota_transcripcion"></p>
             </div><!-- /content -->
             <div data-role="footer" data-position="fixed">
                 <a href="#" id="guardar_nota" class="ui-btn ui-icon-save ui-btn-icon-notext ui-corner-all ui-btn-left save-nota"></a>

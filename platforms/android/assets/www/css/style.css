@@ -1,0 +1,66 @@
+body{
+	text-align: center;
+
+}
+
+.materia{
+	background-color: yellow;
+	color: white;
+	width: 90%;
+	height: 100px;
+	border: 2px solid blue;
+}
+.back_materia, .save-nota{
+    margin-top: -3px;
+}
+.ui-btn:after, .ui-icon-plus:after{
+	background-color: blue;
+}
+.ui-icon-minus:after, .ui-icon-microphone-slash:after{
+	background-color: red;
+}
+.ui-icon-microphone:after{
+	background-color: green;
+}
+.ui-icon-carat-r:after{
+	background-color: #6FB3C2;
+}
+.ui-controlgroup-controls>.ui-input-text{
+	width: 85%;
+}
+a.ui-icon-microphone, a.ui-icon-microphone-slash{
+    float: right;
+    height: 28px;
+    width: 28px;
+}
+a.ui-icon-microphone.ui-btn-icon-notext.ui-corner-all,a.ui-icon-microphone-slash.ui-btn-icon-notext.ui-corner-all{
+	top: 0;
+}
+span.ui-icon-plus{
+    float: right;
+    /*margin-right: 5px;*/
+    margin-top: -30px;
+    position: relative;
+    width: 5%;
+}
+span.ui-icon-minus{
+    float: right;
+    /*margin-right: 5px;*/
+    margin-top: -30px;
+    position: relative;
+    width: 5%;
+}
+span.ui-icon-plus:hover, span.ui-icon-minus:hover{
+	cursor:pointer;
+}
+
+
+.envoltorio-record-button {
+    border-radius: 50px;
+    bottom: 10%;
+    height: 50px;
+    position: absolute;
+    right: 5%;
+    width: 50px;
+    z-index: 9999;
+}
