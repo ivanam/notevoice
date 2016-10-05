@@ -151,9 +151,9 @@ var notevoice_app = {
         var promptString = "Hable Ahora!"; // optional
         var language = "es-AR";                     // optional
         window.plugins.speechrecognizer.startRecognize(function(result){
-            $('#nota_transcripcion').text(result);
             $('#nota_semana').text(localStorage.getItem("semana_actual"));
             $('#nota_materia').text(localStorage.getItem("materia_actual"));
+            notevoice_app.verificar_nota(result);
             $.mobile.changePage($("#notaTranscripcion"));
 
         }, function(errorMessage){
@@ -166,6 +166,20 @@ var notevoice_app = {
         var materia = $('#nota_transcripcion').data('materia');
         var semana = $('#nota_transcripcion').data('semana');
         console.log("Guardando materia: "+materia+" semana: "+semana+" nota: "+nota);
+    },
+
+    verificar_nota: function verificar_nota(nota) {
+        var exist_tema = nota.indexOf("tema");
+        var exist_nota = nota.indexOf("nota");
+        if (exist_tema != -1)
+            $('#nota_tema').text(nota.substring(exist_tema+5,exist_nota-1));
+        else
+            console.log("No dijo ningun tema");
+
+        if (exist_nota != -1)
+            $('#nota_transcripcion').text(nota.substring(exist_nota+5,nota.length));
+        else
+            console.log("No dijo ninguna nota");
     }
 };
 
