@@ -173,13 +173,19 @@ var notevoice_app = {
         var exist_nota = nota.indexOf("nota");
         if (exist_tema != -1)
             $('#nota_tema').text(nota.substring(exist_tema+5,exist_nota-1));
-        else
-            console.log("No dijo ningun tema");
+        else{
+            //en caso que no se haya dicho la palabra tema
+            //aca faltaria implementar que alternativa tomar
+            console.log("No dijo la palabra tema");
+        }
 
         if (exist_nota != -1)
             $('#nota_transcripcion').text(nota.substring(exist_nota+5,nota.length));
-        else
-            console.log("No dijo ninguna nota");
+        else{
+            //en caso que no se haya dicho la palabra nota
+            //aca faltaria implementar que alternativa tomar
+            console.log("No dijo la palabra nota");
+        }
     }
 };
 
