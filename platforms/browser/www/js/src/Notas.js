@@ -43,15 +43,13 @@
 	    	 * using ES6 Promises...
 	    	 */
 			return this.all().then(function(notas) {
-			    // This code runs once the materias has been loaded
+				// This code runs once the materias has been loaded
 			    // from the offline store.
 			    var nota_encontrada;
 			    var promesa = new Promise(function(resolve, reject) {
 					// do a thing, possibly async, then…
-					for(var i=0, nota = notas[0]; nota = notas[i]; i++){
-		                var mismoId = nota.id === nota_id;
-		                if( mismoId )
-		                	nota_encontrada = nota; 
+					if(nota_id in notas){
+						nota_encontrada = notas[nota_id]; 
 		            }
 					if (nota_encontrada) {
 						// cuando encontramos la nota, resolvemos la promesa:

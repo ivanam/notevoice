@@ -87,7 +87,26 @@ var notevoice_app = {
 
     ver_notas: function ver_notas () {
         var semana = $(this).attr("id");
+        var nombre = $(this).text();
         localStorage.setItem("semana_actual", semana);
+        $("#titulo_semana").text(nombre);
+
+
+        NOTEVOICE.Notas.all().then(function(notas){
+
+            var $listado_de_notas = $(".listado__de__notas"),  // elemento del DOM donde van las materias listadas.
+                template_nota_en_lista = "<li><a href='#' class='click_nota' data-notaid={{id}}>{{tema_de_referencia}}</a></li>";
+                
+            $listado_de_notas.empty();
+
+            for(id in notas){
+                var html_nota_en_lista = Mustache.to_html(template_nota_en_lista, notas[id]);
+
+                $listado_de_notas.append(html_nota_en_lista);
+            }
+            $listado_de_notas.listview("refresh");
+            $(".click_nota").click(notevoice_app.cargar_Nota);
+        })
     },
     
     ver_semanas: function ver_semanas () {
@@ -186,6 +205,17 @@ var notevoice_app = {
             //aca faltaria implementar que alternativa tomar
             console.log("No dijo la palabra nota");
         }
+    },
+
+    cargar_Nota: function cargar_Nota() {
+        var id = $(this).data('notaid');
+        NOTEVOICE.Notas.getNotaById(id).then((nota)=>{
+            $("#nota_detalle").text(nota.texto);
+            $.mobile.changePage($("#detalleNota"));        
+        }).catch(  // en caso de que haya error:
+                () => {
+                    console.log("Error al buscar la nota");
+                });
     }
 };
 

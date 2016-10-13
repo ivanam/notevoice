@@ -124,29 +124,15 @@
         <div data-role="page" id="detalleSemana">
 
             <div data-role="header">
-                <h1>Detalles de la semana</h1>
+                <h1 id="titulo_semana"></h1>
                 <a href="#" id="btn-grabar-note-voice" class="ui-btn ui-icon-microphone ui-btn-icon-notext ui-corner-all ui-btn-right record_note"></a>
             </div><!-- /header -->
 
             <div data-role="content">
-                <h4>Semana:</h4>
-                <p>Desde donde hasta donde</p>
                 <h4>Notas:</h4>
-                <dl class="listado__de__notas">
-                    <!-- listado__de__notas se usa como identificador para cargar materias dinamicamenchi -->
-                    
-                    <dt><a href="#detalleNota" class="ver_notas">Nota 1</a></dt>
-                    <dt><a href="#detalleNota" class="ver_notas">Nota 2</a></dt>
-                    <dt><a href="#detalleNota" class="ver_notas">Nota 3</a></dt>
-                    <dt><a href="#detalleNota" class="ver_notas">Nota 4</a></dt>
-                    <dt><a href="#detalleNota" class="ver_notas">Nota 5</a></dt>
-                    <dt><a href="#detalleNota" class="ver_notas">Nota 6</a></dt>
-                    <dt><a href="#detalleNota" class="ver_notas">Nota 7</a></dt>
-                    <dt><a href="#detalleNota" class="ver_notas">Nota 8</a></dt>
-                    <dt><a href="#detalleNota" class="ver_notas">Nota 9</a></dt>
-                    <dt><a href="#detalleNota" class="ver_notas">Nota 10</a></dt>
-
-                </dl>
+                <ul data-role="listview" data-inset="true" class="listado__de__notas">
+                    <!-- listado__de__notas se usa como identificador para cargar las notas dinamicamenchi -->
+                </ul>
 
                 <div class="ui-grid-d">
                     <div class="ui-block-a"></div>
@@ -181,7 +167,7 @@
 
             <div data-role="content">
                 <h4>Nota:</h4>
-                <p>Transcripcion de la nota</p>
+                <p id="nota_detalle"></p>
             </div><!-- /content -->
 
             <a href='#detalleSemana' data-role="button" data-icon="home" data-inline="true">Volver al detalle de semana</a>
@@ -274,8 +260,8 @@
         <script type="text/javascript" src="static/annyang/annyang.min.js"></script>
         <script type="text/javascript" src="js/src/Proyecto.js"></script>
         <script type="text/javascript" src="js/src/Materias.js"></script>
-        <script type="text/javascript" src="js/src/Notas.js"></script>
         <script type="text/javascript" src="js/src/main.js"></script>
+        <script type="text/javascript" src="js/src/Notas.js"></script>
         <script type="text/javascript">
             // app.initialize();
             notevoice_app.initialize();
