@@ -2,70 +2,86 @@
 
 	'use strict';
 
-	const _MATERIAS = [
-		{
-		    "id": 1,
-		    "nombre": "App web",
-		    "profesores":[
-		    	"Diego Martinez",
-		    	"Sebastian Schanz"
-		    ],
-		    "temas_de_referencia": []
+	const _MATERIAS = {
+		1 : {
+			    "id": 1,
+			    "nombre": "App web",
+			    "profesores":[
+			    	"Diego Martinez",
+			    	"Sebastian Schanz"
+			    ],
+			    "temas_de_referencia": [],
+			    "notas": {
+	    	  		
+	    	  			1: { // el id de la nota
+	    	  				id: 1,
+	    	  				texto: 'Nota por defecto',
+							numero_de_semana: 1,
+							tema_de_referencia: 'Test'
+	    	  			}
+	    	  	}
 		},
-		{
-		    "id": 2,
-		    "nombre": "Paradigmas",
-		    "profesores":[
-		        "Gloria Bianchi",
-		    ],
-		    "temas_de_referencia": []
+		2: {
+			    "id": 2,
+			    "nombre": "Paradigmas",
+			    "profesores":[
+			        "Gloria Bianchi",
+			    ],
+			    "temas_de_referencia": [],
+			    "notas": {
+	    	  			1: { // el id de la nota
+	    	  				id: 1,
+	    	  				texto: 'Nota por defecto',
+							numero_de_semana: 1,
+							tema_de_referencia: 'Test'
+	    	  			},
+	    	  			2: { // el id de la nota
+	    	  				id: 2,
+	    	  				texto: 'Nota por defecto 2',
+							numero_de_semana: 2,
+							tema_de_referencia: 'Test'
+	    	  			}
+	    	  	}
 		},
-		{
-		    "id": 3,
-		    "nombre": "Simulacion",
-		    "profesores":[
-		        "Claudia Lopez"
-		    ],
-		    "temas_de_referencia": []
+		3: {
+			    "id": 3,
+			    "nombre": "Simulacion",
+			    "profesores":[
+			        "Claudia Lopez"
+			    ],
+			    "temas_de_referencia": [],
+			    "notas": {}
 		},
-	];
+	};
 
 	app.Materias = {
 
 	    materiaPorId: function(materia_id){
-    	/*
-			Retorna la promesa de buscar una materia por id
-			using ES6 Promises...
+	    	/*
+				Retorna la promesa de buscar una materia por id
+				using ES6 Promises...
 
-			Ejemplo de uso:
-				NOTEVOICE.Materias.materiaPorId(3).then((materia) => {
-                    console.log("Materia "+materia.nombre);
-                });
-				NOTEVOICE.Materias.materiaPorId("3").then((materia) => {
-                    console.log("Materia "+materia.nombre);
-                });
-    	*/
-			return this.buscar_todas().then(function(materias) {
-			    // This code runs once the materias has been loaded
-			    // from the offline store.
-			    var materia_encontrada;
+				Ejemplo de uso:
+					NOTEVOICE.Materias.materiaPorId(3).then((materia) => {
+	                    console.log("Materia "+materia.nombre);
+	                });
+					NOTEVOICE.Materias.materiaPorId("3").then((materia) => {
+	                    console.log("Materia "+materia.nombre);
+	                });
+	    	*/
+	    	// debugger;
+			return localforage.getItem('materias').then(function(materias) {
 			    var promise = new Promise(function(resolve, reject) {
-					// do a thing, possibly async, then…
 					if ( materias.length == 0 ) {
 						reject(Error("No encontre la materia length 0"));
 					};
-					for(var i=0, materia = materias[0]; materia = materias[i]; i++){
-		                var mismoId = materia.id == materia_id;
-		                if( mismoId )
-		                	materia_encontrada = materia; 
-		            }
-					if (materia_encontrada) {
+					if ( materia_id in materias ) {
 						// cuando encontramos la materia, resolvemos la promesa:
-						resolve(materia_encontrada);
+						resolve( materias[ materia_id ] );
 					}
 					else {
-						// si no encontramos la promesa, reject la promesa:
-						reject(Error("No encontre la materia"));
+						// si no encontramos el id de la materia, reject la promesa:
+						reject(Error("No encontre la materia. ID no existe"));
 					}
 				});
 				return promise;
@@ -73,9 +89,9 @@
 	    },
 
 	    addTemaDeReferencia: function addTemaDeReferencia(tema_de_referencia, a_que_materia_id) {
-        /*
-            Agrega un tema_de_referencia a la materia.
-        */
+	        /*
+	            Agrega un tema_de_referencia a la materia.
+	        */
 	        var materia = this.getMateriaById(a_que_materia_id);
 	        materia.temas_de_referencia.push(tema_de_referencia);
 	    },
@@ -90,8 +106,8 @@
 			  localforage.getItem('materias').then(
 			  	(materias) => {
 					if ( materias ) {
-						/* everything turned out fine */
-						resolve(materias);
+						/* Adaptamos el metodo a como se venia utilizando */
+						resolve( app.Materias.materias_a_listado( materias ) );
 					}
 					else {
 						reject(Error("No hay materias cargadas"));
@@ -101,6 +117,20 @@
 			});
 
 			return promesa_de_buscar_todas;
+	    },
+
+	    materias_a_listado: function materias_a_listado( materias ) {
+	    	/*
+	    	 * Pasa el diccionario de materias que se guarda en la base,
+	    	 * a un listado (array) de  materias.
+	    	 */
+			var listado_de_materias = [];
+			for ( var m in materias){
+				listado_de_materias.push( materias[ m ]);
+			}
+
+			return listado_de_materias;
+	    	
 	    },
 
 	    llenar_la_base: function llenarLaBase () {
@@ -114,7 +144,7 @@
 			  	(materias) => {
 					if ( materias ) {
 						/* everything turned out fine */
-						resolve(materias);
+						resolve( app.Materias.materias_a_listado( materias ) );
 					}
 					else {
 						reject(Error("No se pudo cargar materias"));
@@ -127,34 +157,95 @@
 
 	    },
 
-	    guardar_materia: function guardar_materia (materia) {
+	    guardar_materia: function guardar_materia (materia_a_guardar) {
 	    	/*
-	    	 * Guarda la materia en la Base de Datos.
+	    	 * Guarda la materia_a_guardar en la Base de Datos.
 	    	 * .
 	    	 */
 			var insertar_materia_en_base = new Promise(function(resolve, reject) {
-			  // do a thing, possibly async, then…
-			  localforage.getItem('materias').then(
-			  	(materias) => {
-					if ( materias ) {
-						/* everything turned out fine */
-						materias.push(materia);
+				// do a thing, possibly async, then…
+				localforage.getItem('materias').then(
+					(materias) => {
+						materias[ materia_a_guardar.id ] = materia_a_guardar;
 						var promesa_nueva = new Promise( (resolve, reject) => {
 							localforage.setItem('materias', materias).then(
-			  					(materias) => {
-			  						resolve(materias);
-			  					});
+									(materias) => {
+										resolve(materia_a_guardar);
+									});
 						})
-
 						resolve(promesa_nueva);
 					}
-					else {
-						reject(Error("No se pudo cargar materias"));
-					}	
-			  	}
-			  )
+				)
 			});
 			return insertar_materia_en_base;	    	
+	    },
+
+	    notas_de_materia: function notes_for_matery(materia_id) {
+	    	/*
+	    	 Devuelve un objeto con clase del 1 al 15 en la que se agrupan
+	    	 las notas por semana:
+	    	 Por ejemplo
+
+	    	 {
+	    	 	1: [ nota1, nota2,...],
+	    	 	2:
+	    	 	...
+	    	 	15: [ notaN, notaN2,...],
+	    	 }
+
+	    	 USAGE:
+	    	 	NOTEVOICE.Materias.notas_de_materia(1).then( (semanas) => console.log(semanas))
+	    	*/
+			var clasificar_notas_por_semana = new Promise(function(resolve, reject) {
+		    	app.Materias.materiaPorId(materia_id)
+		    		.then(
+		    			( materia ) => {
+					    	var semanas = {
+					    		1: [],
+					    		2: [],
+					    		3: [],
+					    		4: [],
+					    		5: [],
+					    		6: [],
+					    		7: [],
+					    		8: [],
+					    		9: [],
+					    		10: [],
+					    		11: [],
+					    		12: [],
+					    		13: [],
+					    		14: [],
+					    		15: [],
+					    	};
+				    		for( var nota_id in materia.notas ){
+				    			let nota = materia.notas[ nota_id];
+				    			semanas[ nota.numero_de_semana ].push( nota );
+				    		}
+				    		resolve( semanas );
+				    	}
+				    )  // fin then
+					.catch(
+						() => resolve({
+				    		1: [],
+				    		2: [],
+				    		3: [],
+				    		4: [],
+				    		5: [],
+				    		6: [],
+				    		7: [],
+				    		8: [],
+				    		9: [],
+				    		10: [],
+				    		11: [],
+				    		12: [],
+				    		13: [],
+				    		14: [],
+				    		15: [],
+				    	})
+					)
+	    	});
+
+	    	return clasificar_notas_por_semana;
 	    }
 
 	};

@@ -78,6 +78,7 @@ var notevoice_app = {
         }, 500);
         $("#btn-grabar-note-voice").click(this.manejador_grabacion);
         $("#guardar_nota").click(this.guardar_nota_en_base);
+        $("#ver_notas").click(this.cargar_notas_de_la_materia);
     },
 
     nueva_materia: function nueva_materia () {
@@ -216,6 +217,23 @@ var notevoice_app = {
                 () => {
                     console.log("Error al buscar la nota");
                 });
+    },
+
+    cargar_notas_de_la_materia: function cargar_notas_de_la_materia() {
+        var materia_id=1; // De alguna forma obtenerlo
+        NOTEVOICE.Materias.notas_de_materia(materia_id).then(
+            (semanas) => {
+                for( var numero_de_semana in semanas){
+                    cargar_semana_con_notas(numero_de_semana, "#detalleSemana"+nueva_materia);
+                }
+            }
+        )
+
+        function cargar_semana_con_notas(numero_de_semana, selector_de_semana) {
+            //con mustache iterar e insertar las notas de la semana en el selector
+            $(selector_de_semana).empty();
+            var las_notas = ""
+        }
     }
 };
 
