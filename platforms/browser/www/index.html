@@ -218,6 +218,46 @@
         </div><!-- /page -->
 
 
+        <!-- ############################### Pagina Modificar los datos de la Materia ############################### -->
+        
+        <div data-role="page" id="modificarMateria">
+            <div data-role="header">
+                <h1>Modificar Materia</h1>
+            </div><!-- /header -->
+            <div data-role="content" id="form_alta">
+                <h4>Datos de Materia</h4>
+                <input name="text-id" id="text-id-mod" value="" type="hidden">
+                <input name="text-nombre" id="text-nombre-mod" value="" type="text" placeholder="Nombre de Materia">
+                <div data-role="controlgroup" id="control_group_mod">
+                    <input id="nombre_profesor_mod" class="text-profesor-mod" value="" type="text" placeholder="Nombre de Profesor">
+                    <span class="ui-icon-plus ui-btn-icon-notext ui-corner-all ui-btn-right" id="new_profesor_mod">
+                    <!-- si hay mas de 1 profesor, se completan dinamicamente -->
+                </div>
+
+                <a href="#popupDialog" data-rel="dialog" data-position-to="window" data-role="button" data-inline="true" data-transition="pop" data-icon="save" data-theme="b">Modificar</a>
+
+            </div><!-- /content -->
+            <div data-role="footer" data-position="fixed">
+                <h6>Taller de nuevas tecnologías</h6>
+                <a href="#listadoMaterias" class="ui-btn ui-icon-back ui-btn-icon-notext ui-corner-all ui-btn-right back_materia" data-inline="true"></a>
+            </div><!-- /footer -->
+        </div><!-- /page -->
+
+
+        <!-- Pop up para mostrar un alerta de confirmacion antes de guardar los cambios -->
+        <div data-role="dialog" id="popupDialog">
+            <div data-role="header" class="ui-corner-top">
+                <h1>Guardar Cambios?</h1>
+            </div>
+            <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+                <h3 class="ui-title">Esta seguro que desea modificar los datos?</h3>
+                <p>Esta accion no se podrá deshacer.</p>
+                <a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="c">Cancel</a>
+                <a href="#" data-role="button" data-inline="true" data-transition="flow" data-theme="b" id="guardar_materia_modificada">Guardar</a>
+            </div>
+        </div>
+
+
         <!-- ######################################################################################################### -->
         <!-- ######################################## TEMPLATES ###################################################### -->
         <!-- ######################################################################################################### -->
@@ -231,7 +271,6 @@
                 <div data-role='header'>
                     <h1>Datos Materia</h1>
                     <a href="#right-panel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all ui-btn-right record_note" data-shadow="false"></a>
-                    <!-- <a href="#right-panel" data-theme="b" data-inline="true" data-mini="true" data-shadow="false"></a> -->
                 </div>
 
                 <div data-role='content'>
@@ -248,10 +287,9 @@
                 <div data-role="panel" id="right-panel" data-display="overlay" data-position="right" data-theme="c">
                     <ul data-role="listview" data-theme="d" data-icon="false">
                         <li data-icon="delete"><a href="#" data-rel="close">Cerrar</a></li>
-                        <li data-role="list-divider">ABM Materia</li>
-                        <li data-icon="plus"><a href="#">Alta</a></li>
+                        <li data-role="list-divider">Menu Materia</li>
                         <li data-icon="minus"><a href="#">Baja</a></li>
-                        <li data-icon="edit"><a href="#">Modificacion</a></li>
+                        <li data-icon="edit" class="modificar_materia"><a href="#modificarMateria">Modificacion</a></li>
                     </ul>
                 </div><!-- /panel -->
 
