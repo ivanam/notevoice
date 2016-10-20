@@ -44,8 +44,8 @@ var notevoice_app = {
          * Dibuja el listado de materias y las pages de mas materias en el index.
          */
         var $listado_de_materias = $(".listado__de__materias"),  // elemento del DOM donde van las materias listadas.
-            // template_materia_en_lista = "<dt><a href='#materia_{{id}}' class='ver_semanas' materia-id={{id}}> {{nombre}}</dt>",  // template de un item materia, en el listado
-            template_materia_en_lista = "<li><a href='#materia_{{id}}' class='ver_semanas' data-materiaid={{id}}>{{nombre}}</a></li>",
+            // template_materia_en_lista = "<dt><a href='#materia_{{id}}' class='abrir_materia' materia-id={{id}}> {{nombre}}</dt>",  // template de un item materia, en el listado
+            template_materia_en_lista = "<li><a href='#materia_{{id}}' class='abrir_materia' data-materiaid={{id}}>{{nombre}}</a></li>",
             // ^-- si se desea cambiar la reprresentacion de una materia en el listado, tocar esta var.
             template_materia_page = $("#materia__page__template").text();  // template de una page (jQuery mobile) para una materia
             // ^-- este template tenemos que ir a buscarlo al index porque es un template mas grande como para tenerlo en un String.
@@ -66,19 +66,26 @@ var notevoice_app = {
             $("body").append(html_materia_page);
         };
 
+        setTimeout(function() {
+            // desfazado porque la clase ver_semana pertenece a elementos
+            // dinamicos!
+            $(".abrir_semana").click(notevoice_app.on__abrir_semana);
+        }, 500);
+
     },
 
     enlazar_eventos: function bind_events() {
         $("#nueva_materia").click(this.nueva_materia);
-        $(".ver_notas").click(this.ver_notas);
+        // $(".ver_notas").click(this.ver_notas);
         $("#new_profesor").click(this.nuevo_profesor);
         $("#agregar_materia").click(this.agregar_materia);
         setTimeout(function() {
-            $(".ver_semanas").click(notevoice_app.ver_semanas);    
+            // desfazado porque la clase ver_semana pertenece a elementos
+            // dinamicos!
+            $(".abrir_materia").click(notevoice_app.abrir_materia);    
         }, 500);
         $("#btn-grabar-note-voice").click(this.manejador_grabacion);
         $("#guardar_nota").click(this.guardar_nota_en_base);
-        $("#ver_notas").click(this.cargar_notas_de_la_materia);
     },
 
     nueva_materia: function nueva_materia () {
@@ -110,9 +117,10 @@ var notevoice_app = {
         })
     },
     
-    ver_semanas: function ver_semanas () {
+    abrir_materia: function abrir_materia () {
         var materia_id = $(this).data('materiaid');
         localStorage.setItem("materia_actual", materia_id);
+        notevoice_app.cargar_notas_de_la_materia(); //puenteo temporal
     },
 
     eliminar_inputs: function eliminar_inputs(){
@@ -220,19 +228,38 @@ var notevoice_app = {
     },
 
     cargar_notas_de_la_materia: function cargar_notas_de_la_materia() {
-        var materia_id=1; // De alguna forma obtenerlo
+        console.log("ON: cargar_notas_de_la_materia");
+        var materia_id= localStorage.getItem("materia_actual"); // 
+        console.log("ON: cargar_notas_de_la_materia -> a la promesa...");
+        debugger;
         NOTEVOICE.Materias.notas_de_materia(materia_id).then(
             (semanas) => {
-                for( var numero_de_semana in semanas){
-                    cargar_semana_con_notas(numero_de_semana, "#detalleSemana"+nueva_materia);
-                }
+                console.log("ON: cargar_notas_de_la_materia -> then de la promesa...");
+                // for( var numero_de_semana in semanas){
+                //     cargar_semana_con_notas(semanas[numero_de_semana], "#semana"+numero_de_semana);
+                // }
+                localStorage.setItem("notas_por_semana_actual", JSON.stringify( semanas ));
             }
         )
 
-        function cargar_semana_con_notas(numero_de_semana, selector_de_semana) {
+        function cargar_semana_con_notas(notas_de_semana, selector_de_semana) {
             //con mustache iterar e insertar las notas de la semana en el selector
             $(selector_de_semana).empty();
-            var las_notas = ""
+            $(selector_de_semana).append(notas_de_semana);
+        }
+    },
+
+    on__abrir_semana: function on__open_week() {
+        console.log("abrir semana!");
+        console.log($(this).attr("semana-id"));
+        id_semana_seleccionada = $(this).attr("semana-id");
+        var notas_de_la_semana = JSON.parse( localStorage.getItem("notas_por_semana_actual") )[id_semana_seleccionada];
+
+        console.log("notas de la semana");
+        console.log(notas_de_la_semana);
+        for (var i = notas_de_la_semana.length - 1; i >= 0; i--) {
+            nota = notas_de_la_semana[i];
+            $(".listado__de__notas").append("<li> texto de la nota: "+nota.texto+"</li>");
         }
     }
 };

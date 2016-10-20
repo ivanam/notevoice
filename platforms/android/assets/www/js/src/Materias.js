@@ -50,7 +50,15 @@
 			        "Claudia Lopez"
 			    ],
 			    "temas_de_referencia": [],
-			    "notas": {}
+			    "notas": {
+		  			1: { // el id de la nota
+		  				id: 1,
+		  				texto: 'Nota por defecto de simulacion',
+						numero_de_semana: 1,
+						tema_de_referencia: 'Test'
+		  			},
+			    	
+			    }
 		},
 	};
 
@@ -217,6 +225,7 @@
 					    		14: [],
 					    		15: [],
 					    	};
+					    	debugger;
 				    		for( var nota_id in materia.notas ){
 				    			let nota = materia.notas[ nota_id];
 				    			semanas[ nota.numero_de_semana ].push( nota );

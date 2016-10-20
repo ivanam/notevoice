@@ -84,41 +84,6 @@
         </div><!-- /page -->
 
         
-        <!-- ############################### listadoSemanas ############################### -->
-        
-        <div data-role="page" id="listadoSemanas">
-            <div data-role="header">
-                <h1>Notas por semanas</h1>
-            </div><!-- /header -->
-
-            <div data-role="content">
-                <h4>Semanas:</h4>
-                <ul class="listado__de__semanas" data-role="listview">
-                    <!-- listado__de__materias se usa como identificador para cargar materias dinamicamenchi -->
-                    <li><a href="#detalleSemana1" class="ver_notas" id="semana1">Semana 1</a></li>
-                    <li><a href="#detalleSemana2" class="ver_notas" id="semana2">Semana 2</a></li>
-                    <li><a href="#detalleSemana3" class="ver_notas" id="semana3">Semana 3</a></li>
-                    <li><a href="#detalleSemana4" class="ver_notas" id="semana4">Semana 4</a></li>
-                    <li><a href="#detalleSemana5" class="ver_notas" id="semana5">Semana 5</a></li>
-                    <li><a href="#detalleSemana6" class="ver_notas" id="semana6">Semana 6</a></li>
-                    <li><a href="#detalleSemana7" class="ver_notas" id="semana7">Semana 7</a></li>
-                    <li><a href="#detalleSemana8" class="ver_notas" id="semana8">Semana 8</a></li>
-                    <li><a href="#detalleSemana9" class="ver_notas" id="semana9">Semana 9</a></li>
-                    <li><a href="#detalleSemana10" class="ver_notas" id="semana10">Semana 10</a></li>
-                    <li><a href="#detalleSemana11" class="ver_notas" id="semana11">Semana 11</a></li>
-                    <li><a href="#detalleSemana12" class="ver_notas" id="semana12">Semana 12</a></li>
-                    <li><a href="#detalleSemana13" class="ver_notas" id="semana13">Semana 13</a></li>
-                    <li><a href="#detalleSemana14" class="ver_notas" id="semana14">Semana 14</a></li>
-                    <li><a href="#detalleSemana15" class="ver_notas" id="semana15">Semana 15</a></li>
-                </ul>
-            </div><!-- /content -->
-            <div data-role="footer" data-position="fixed">
-                <h6>Taller de nuevas tecnologías</h6>
-                <a href="#listadoMaterias" class="ui-btn ui-icon-back ui-btn-icon-notext ui-corner-all ui-btn-right back_materia" data-inline="true"></a>
-            </div><!-- /footer -->
-        </div><!-- /page -->
-
-        
         <!-- ############################### detalleSemana ############################### -->
         
         <div data-role="page" id="detalleSemana">
@@ -240,7 +205,28 @@
                             <li>{{.}}</li>
                         {{/profesores}}
                     </ul>
-                    <a href="#listadoSemanas" data-role="button" data-icon="arrow-r" data-iconpos="right" data-inline="true" id="ver_notas">Ver notas</a>
+
+                    <h4>Semanas:</h4>
+                    <ul class="listado__de__semanas" data-role="listview">
+                        <!-- listado__de__materias se usa como identificador para cargar materias dinamicamenchi -->
+                        <li><a href="#detalleSemana" class="abrir_semana" semana-id="1">Semana 1</a></li>
+                        <li><a href="#detalleSemana" class="abrir_semana" semana-id="2">Semana 2</a></li>
+                        <li><a href="#detalleSemana" class="abrir_semana" semana-id="3">Semana 3</a></li>
+                        <li><a href="#detalleSemana" class="abrir_semana" semana-id="4">Semana 4</a></li>
+                        <li><a href="#detalleSemana" class="abrir_semana" semana-id="5">Semana 5</a></li>
+                        <li><a href="#detalleSemana" class="abrir_semana" semana-id="6">Semana 6</a></li>
+                        <li><a href="#detalleSemana" class="abrir_semana" semana-id="7">Semana 7</a></li>
+                        <li><a href="#detalleSemana" class="abrir_semana" semana-id="8">Semana 8</a></li>
+                        <li><a href="#detalleSemana" class="abrir_semana" semana-id="9">Semana 9</a></li>
+                        <li><a href="#detalleSemana" class="abrir_semana" semana-id="10">Semana 10</a></li>
+                        <li><a href="#detalleSemana" class="abrir_semana" semana-id="11">Semana 11</a></li>
+                        <li><a href="#detalleSemana" class="abrir_semana" semana-id="12">Semana 12</a></li>
+                        <li><a href="#detalleSemana" class="abrir_semana" semana-id="13">Semana 13</a></li>
+                        <li><a href="#detalleSemana" class="abrir_semana" semana-id="14">Semana 14</a></li>
+                        <li><a href="#detalleSemana" class="abrir_semana" semana-id="15">Semana 15</a></li>
+                    </ul>
+
+     <!--                <a href="#listadoSemanas" data-role="button" data-icon="arrow-r" data-iconpos="right" data-inline="true" class="ver_notas_por_semana">Ver notas</a> -->
                 </div>
 
                 <div data-role='footer' data-position="fixed">
