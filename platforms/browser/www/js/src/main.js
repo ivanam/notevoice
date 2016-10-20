@@ -65,6 +65,7 @@ var notevoice_app = {
             // - Toda la page de materias:
             $("body").append(html_materia_page);
         };
+        $(".modificar_materia").click(this.cargar_modificar_materia);
 
         setTimeout(function() {
             // desfazado porque la clase ver_semana pertenece a elementos
@@ -78,6 +79,7 @@ var notevoice_app = {
         $("#nueva_materia").click(this.nueva_materia);
         // $(".ver_notas").click(this.ver_notas);
         $("#new_profesor").click(this.nuevo_profesor);
+        $("#new_profesor_mod").click(this.nuevo_profesor_mod);
         $("#agregar_materia").click(this.agregar_materia);
         setTimeout(function() {
             // desfazado porque la clase ver_semana pertenece a elementos
@@ -86,11 +88,39 @@ var notevoice_app = {
         }, 500);
         $("#btn-grabar-note-voice").click(this.manejador_grabacion);
         $("#guardar_nota").click(this.guardar_nota_en_base);
+        $("#ver_notas").click(this.cargar_notas_de_la_materia);
+        $("#guardar_materia_modificada").click(this.guardar_materia_modificada);
+        $("#event_limpiar_mod_materia").click(this.limpiar_mod_materia);
     },
 
     nueva_materia: function nueva_materia () {
         localStorage.setItem("cantProfesor",1);
         $.mobile.changePage($("#altaMateria"));
+    },
+
+    cargar_modificar_materia: function cargar_modificar_materia() {
+        notevoice_app.limpiar_mod_materia();
+
+        var template_input_text = "<div class='ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset delete_input'>"+
+                         "<input type='text' placeholder='Nombre del Profesor' value='{{text-profesor}}' class='text-profesor-mod'></div>";
+        var template_btn_eliminar = "<span id='delete_profesor_mod_{{id}}' class='ui-icon-minus ui-btn-icon-notext ui-corner-all ui-btn-right btn_delete_mod'>";
+        NOTEVOICE.Materias.materiaPorId(localStorage.getItem("materia_actual"))
+            .then( (materia)=> {
+                $("#text-id-mod").val(materia.id);
+                $("#text-nombre-mod").val(materia.nombre);
+                $("#nombre_profesor_mod").val(materia.profesores[0]);
+                for (var id in materia.profesores) {
+                    if (id != 0) {
+                        // debugger;
+                        var html_profesor = Mustache.to_html(template_input_text, {"text-profesor":materia.profesores[id]});
+                        var html_btn_delete = Mustache.to_html(template_btn_eliminar, {"id":id});
+                        $(html_profesor).insertAfter($(".text-profesor-mod").last().parent());
+                        $(html_btn_delete).insertBefore($(".text-profesor-mod").last().parent());
+                        $("#delete_profesor_mod_"+id).click(notevoice_app.eliminar_inputs);
+                    }
+                }
+                localStorage.setItem("cantProfesorMod",materia.profesores.length);
+            })
     },
 
     ver_notas: function ver_notas () {
@@ -141,6 +171,19 @@ var notevoice_app = {
         localStorage.setItem("cantProfesor", cant+1);
     },
 
+    nuevo_profesor_mod: function nuevo_profesor_modificacion () {
+        var cant = parseInt(localStorage.getItem("cantProfesorMod"));
+        //maqueta de input para agregar otro profesor y boton para eliminarlo
+        var input_text = "<div class='ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset delete_input'>"+
+                         "<input type='text' placeholder='Nombre del Profesor' value='' class='text-profesor-mod'></div>";
+        var btn_eliminar = "<span id='delete_profesor_mod_"+cant+"' class='ui-icon-minus ui-btn-icon-notext ui-corner-all ui-btn-right btn_delete_mod'>";
+        
+        $(input_text).insertAfter($(".text-profesor-mod").last().parent());
+        $(btn_eliminar).insertBefore($(".text-profesor-mod").last().parent());
+        $("#delete_profesor_mod_"+cant).click(notevoice_app.eliminar_inputs);
+        localStorage.setItem("cantProfesorMod", cant+1);
+    },
+
     agregar_materia: function agregar_materia () {
         var profesores = [];
         $( ".text-profesor" ).each(function() {
@@ -168,10 +211,60 @@ var notevoice_app = {
         $.mobile.changePage($("#listadoMaterias"));
     },
 
+    guardar_materia_modificada: function guardar_materia_modificada() {
+        var id_materia = $("#text-id-mod").val();
+        var nombre_materia = $("#text-nombre-mod").val();
+        var profesores = [];
+        $( ".text-profesor-mod" ).each(function() {
+            profesores.push($(this)[0].value);
+        });
+
+        /* Se comienza a armar la materia con los datos nuevos
+        el ID, los temas de referencia y las notas no pueden
+        ser modificadas desde aca */
+        var materia_mod = {
+            "id": id_materia,
+            "nombre": nombre_materia,
+            "profesores": profesores
+        };
+
+        NOTEVOICE.Materias.materiaPorId(id_materia)
+            .then( (materia)=> {
+                materia_mod['temas_de_referencia'] = materia.temas_de_referencia;
+                materia_mod['notas'] = materia.notas;
+                NOTEVOICE.Materias.guardar_materia(materia_mod)
+                    .then( () => {
+                        //una vez que se guardaron los cambios recupero todas para dibujar nuevamente
+                        NOTEVOICE.Materias.buscar_todas()
+                            .then(
+                                (materias) => {
+                                    notevoice_app.dibujar_materias(materias);
+                                    $.mobile.changePage($("#listadoMaterias"));
+                                }
+                            );  // fin then
+                    })  // fin then;
+                    .catch(  // en caso de que haya error:
+                        () => {
+                            console.log("Error al guardar cambios en materia");
+                        });
+            })
+            .catch( ()=>{
+                console.log("Error, no se encontro la materia");
+            });
+    },
+
     limpiar_alta_materia: function limpiar_alta_materia(){
         $("#text-id")[0].value = "";
         $("#text-nombre")[0].value = "";
         $(".text-profesor")[0].value = "";
+    },
+
+    limpiar_mod_materia: function limpiar_modificacion_de_materia(){
+        $("#text-id-mod")[0].value = "";
+        $("#text-nombre-mod")[0].value = "";
+        var profesor_base = $("#nombre_profesor_mod")[0].value = "";
+        $(".btn_delete_mod").remove();
+        $(".delete_input").remove();
     },
 
     manejador_grabacion: function comerzar_captura() {

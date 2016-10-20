@@ -17,9 +17,12 @@ body{
 	background-color: blue;
 }
 .ui-icon-minus:after, .ui-icon-microphone-slash:after{
-	background-color: red;
+    background-color: #F65757;
 }
-.ui-icon-microphone:after{
+.ui-icon-delete:after,.ui-icon-bars:after{
+    background-color: #837878;
+}
+.ui-icon-microphone:after,li>a.ui-icon-plus:after,.ui-icon-edit:after{
 	background-color: green;
 }
 .ui-icon-carat-r:after{
@@ -53,7 +56,10 @@ span.ui-icon-minus{
 span.ui-icon-plus:hover, span.ui-icon-minus:hover{
 	cursor:pointer;
 }
-
+.ui-panel{
+    background: #fff none;
+    min-height: 25%;
+}
 
 .envoltorio-record-button {
     border-radius: 50px;

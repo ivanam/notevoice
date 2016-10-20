@@ -8,7 +8,8 @@
 			    "nombre": "App web",
 			    "profesores":[
 			    	"Diego Martinez",
-			    	"Sebastian Schanz"
+			    	"Sebastian Schanz",
+			    	"Diego Vanhasteer"
 			    ],
 			    "temas_de_referencia": [],
 			    "notas": {
