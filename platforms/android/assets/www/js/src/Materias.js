@@ -97,6 +97,29 @@
 			})
 	    },
 
+	    proximo_id: function next_id() {
+	    	/*
+	    	 * Modo de uso:
+	    	 * 		NOTEVOICE.Materias.proximo_id().then((id) => console.log(id))
+	    	 */
+			return localforage.getItem('materias').then(function(materias) {
+			    var promise = new Promise(function(resolve, reject) {
+					if ( materias.length == 0 ) {
+						resolve( 1 );
+					};
+					var ids = $.map(materias, function(materia, index) {
+					    return [materia.id];
+					});
+					function getMaxOfArray(numArray) {
+						return Math.max.apply(null, numArray);
+					}
+
+					resolve( getMaxOfArray(ids) + 1 );
+				});
+				return promise;
+			})
+	    },
+
 	    addTemaDeReferencia: function addTemaDeReferencia(tema_de_referencia, a_que_materia_id) {
 	        /*
 	            Agrega un tema_de_referencia a la materia.
@@ -256,7 +279,56 @@
 	    	});
 
 	    	return clasificar_notas_por_semana;
+	    }, // fin notas_de_materia
+	    
+	    _todas_las_notas: function _all_notes() {
+	    	/*
+	    	 * NOTEVOICE.Materias._todas_las_notas().then((notas) => console.log(notas))
+	    	 */
+			var promesa_todas_las_notas = new Promise(function(resolve, reject) {
+				// do a thing, possibly async, then…
+				localforage.getItem('materias').then(
+					(materias) => {
+						var notas_todas = [];
+						for( var materia_id in materias ){
+							var notas = $.map(materias[materia_id].notas, function(nota, index) {
+							    return [nota];
+							});
+							for( var nota_index in notas){
+								notas_todas.push(notas[nota_index])
+							}
+						}
+						resolve(notas_todas);
+					}
+				)
+			});
+			return promesa_todas_las_notas;	    	
+
+	    },
+
+
+	    proximo_id_de_notas: function next_id_of_notes() {
+	    	/*
+	    	 * NOTEVOICE.Materias.proximo_id_de_notas().then((id) => console.log(id))
+	    	 */
+			var promesa_de_proximo_id_de_nota = new Promise(function(resolve, reject) {
+				// do a thing, possibly async, then…
+	    		app.Materias._todas_las_notas().then(
+	    			(notas) => {
+						var notas_ids = $.map(notas, function(nota, index) {
+						    return [nota.id];
+						});
+						function getMaxOfArray(numArray) {
+							return Math.max.apply(null, numArray);
+						}
+
+						resolve( getMaxOfArray(notas_ids) + 1 );
+
+	    			})
+			});
+			return promesa_de_proximo_id_de_nota;	    	
 	    }
+
 
 	};
 	

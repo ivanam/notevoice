@@ -343,18 +343,33 @@ var notevoice_app = {
     },
 
     on__abrir_semana: function on__open_week() {
-        console.log("abrir semana!");
-        console.log($(this).attr("semana-id"));
+        // console.log("abrir semana!");
+        // console.log($(this).attr("semana-id"));
         id_semana_seleccionada = $(this).attr("semana-id");
         var notas_de_la_semana = JSON.parse( localStorage.getItem("notas_por_semana_actual") )[id_semana_seleccionada];
         $(".listado__de__notas").empty();
-        console.log("notas de la semana");
-        console.log(notas_de_la_semana);
+        // console.log("notas de la semana");
+        // console.log(notas_de_la_semana);
+        var template__nota_en_listado = "<li> <a href='#detalleNota' class='abrir_nota'><span class='nota__tema_de_referencia'><i>{{ tema_de_referencia }}</i></span> <span class='nota_en_listado__id'>Nota #<span class='nota__id'>{{ id }}</span></span></a></li>";
         for (var i = notas_de_la_semana.length - 1; i >= 0; i--) {
-            nota = notas_de_la_semana[i];
-            $(".listado__de__notas").append("<li> texto de la nota: "+nota.texto+"</li>");
+            var nota = notas_de_la_semana[i];
+            var nota_en_listado = Mustache.to_html(template__nota_en_listado, nota);
+            $(".listado__de__notas").append(nota_en_listado);
         }
+        $(".abrir_nota").click(notevoice_app.on__abrir_nota);
         $(".listado__de__notas").listview("refresh");
+
+    },
+
+    on__abrir_nota: function on__open_note(evento) {
+        console.log("cargar el texto de la nota");
+        console.log("nota id");
+        var nota__id_seleccionado = $(".nota__id", evento.currentTarget).text();
+        var nota_seleccionada = JSON.parse( localStorage.getItem("notas_por_semana_actual") )[nota__id_seleccionado];
+        console.log("nota seleccionada");
+        console.log(nota_seleccionada);
+
+
     }
 };
 
