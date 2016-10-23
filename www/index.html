@@ -171,9 +171,9 @@
             <div data-role="content" id="form_alta">
                 <h4>Transcripción de la Nota</h4>
                 <p id="nota_semana"></p>
-                <p id="nota_materia"></p>
-                <p id="nota_tema"></p>
-                <p id="nota_transcripcion"></p>
+                <span>Id Materia: </span><p id="nota_materia"></p>
+                <span>Tema: </span><p id="nota_tema"></p>
+                <span>Nota: </span><p id="nota_transcripcion"></p>
             </div><!-- /content -->
             <div data-role="footer" data-position="fixed">
                 <a href="#" id="guardar_nota" class="ui-btn ui-icon-save ui-btn-icon-notext ui-corner-all ui-btn-left save-nota"></a>
@@ -219,6 +219,20 @@
                 <p>Esta accion no se podrá deshacer.</p>
                 <a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="c">Cancel</a>
                 <a href="#" data-role="button" data-inline="true" data-transition="flow" data-theme="b" id="guardar_materia_modificada">Guardar</a>
+            </div>
+        </div>
+
+
+        <!-- Pop up para mostrar un alerta de confirmacion antes de eliminar una materia -->
+        <div data-role="dialog" id="popupDialogDelete">
+            <div data-role="header" class="ui-corner-top">
+                <h1>Eliminar Materia?</h1>
+            </div>
+            <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+                <h3 class="ui-title">Esta seguro que desea eliminar la materia?</h3>
+                <p>Esta accion no se podrá deshacer.</p>
+                <a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="c">Cancel</a>
+                <a href="#" data-role="button" data-inline="true" data-transition="flow" data-theme="b" id="eliminar_materia">Eliminar</a>
             </div>
         </div>
 
@@ -274,7 +288,9 @@
                     <ul data-role="listview" data-theme="d" data-icon="false">
                         <li data-icon="delete"><a href="#" data-rel="close">Cerrar</a></li>
                         <li data-role="list-divider">Menu Materia</li>
-                        <li data-icon="minus"><a href="#">Baja</a></li>
+                        <li data-icon="minus">
+                            <a href="#popupDialogDelete" data-rel="dialog" data-transition="pop">Eliminar</a>
+                        </li>
                         <li data-icon="edit" class="modificar_materia"><a href="#modificarMateria">Modificacion</a></li>
                     </ul>
                 </div><!-- /panel -->
@@ -298,6 +314,7 @@
         <script type="text/javascript" src="js/src/Materias.js"></script>
         <script type="text/javascript" src="js/src/main.js"></script>
         <script type="text/javascript" src="js/src/Notas.js"></script>
+        <!-- <script src="http://192.168.1.39:8080/target/target-script-min.js#anonymous"></script> -->
         <script type="text/javascript">
             // app.initialize();
             notevoice_app.initialize();
