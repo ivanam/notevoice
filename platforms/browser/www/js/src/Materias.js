@@ -226,7 +226,7 @@
 					    		14: [],
 					    		15: [],
 					    	};
-					    	debugger;
+					    	// debugger;
 				    		for( var nota_id in materia.notas ){
 				    			let nota = materia.notas[ nota_id];
 				    			semanas[ nota.numero_de_semana ].push( nota );

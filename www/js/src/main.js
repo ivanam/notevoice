@@ -51,7 +51,7 @@ var notevoice_app = {
             // ^-- este template tenemos que ir a buscarlo al index porque es un template mas grande como para tenerlo en un String.
         
         $listado_de_materias.empty();
-
+        $(".pages_delete_materia").remove();
         // Por cada materia:
         for (var i = materias.length - 1; i >= 0; i--) {
             // Cargar los templates:
@@ -324,7 +324,7 @@ var notevoice_app = {
         console.log("ON: cargar_notas_de_la_materia");
         var materia_id= localStorage.getItem("materia_actual"); // 
         console.log("ON: cargar_notas_de_la_materia -> a la promesa...");
-        debugger;
+        // debugger;
         NOTEVOICE.Materias.notas_de_materia(materia_id).then(
             (semanas) => {
                 console.log("ON: cargar_notas_de_la_materia -> then de la promesa...");
@@ -347,13 +347,14 @@ var notevoice_app = {
         console.log($(this).attr("semana-id"));
         id_semana_seleccionada = $(this).attr("semana-id");
         var notas_de_la_semana = JSON.parse( localStorage.getItem("notas_por_semana_actual") )[id_semana_seleccionada];
-
+        $(".listado__de__notas").empty();
         console.log("notas de la semana");
         console.log(notas_de_la_semana);
         for (var i = notas_de_la_semana.length - 1; i >= 0; i--) {
             nota = notas_de_la_semana[i];
             $(".listado__de__notas").append("<li> texto de la nota: "+nota.texto+"</li>");
         }
+        $(".listado__de__notas").listview("refresh");
     }
 };
 
