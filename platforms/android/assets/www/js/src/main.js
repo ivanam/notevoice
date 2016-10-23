@@ -66,6 +66,7 @@ var notevoice_app = {
             $("body").append(html_materia_page);
         };
         $(".modificar_materia").click(this.cargar_modificar_materia);
+        $("#eliminar_materia").click(this.eliminar_materia_de_base);
 
         setTimeout(function() {
             // desfazado porque la clase ver_semana pertenece a elementos
@@ -289,7 +290,8 @@ var notevoice_app = {
         console.log("Guardando materia: "+materia+" semana: "+semana+" nota: "+nota);
     },
 
-    verificar_nota: function verificar_nota(nota) {
+    verificar_nota: function verificar_nota(resultado) {
+        var nota = resultado[0];
         var exist_tema = nota.indexOf("tema");
         var exist_nota = nota.indexOf("nota");
         if (exist_tema != -1)
@@ -346,6 +348,7 @@ var notevoice_app = {
         // console.log("abrir semana!");
         // console.log($(this).attr("semana-id"));
         id_semana_seleccionada = $(this).attr("semana-id");
+        localStorage.setItem("semana_actual",id_semana_seleccionada);
         var notas_de_la_semana = JSON.parse( localStorage.getItem("notas_por_semana_actual") )[id_semana_seleccionada];
         $(".listado__de__notas").empty();
         // console.log("notas de la semana");
@@ -358,6 +361,7 @@ var notevoice_app = {
         }
         $(".abrir_nota").click(notevoice_app.on__abrir_nota);
         $(".listado__de__notas").listview("refresh");
+<<<<<<< HEAD
 
     },
 
@@ -370,6 +374,32 @@ var notevoice_app = {
         console.log(nota_seleccionada);
 
 
+=======
+    },
+
+    eliminar_materia_de_base: function eliminar_materia_de_base() {
+        var id_materia_seleccionada = localStorage.getItem("materia_actual");
+        NOTEVOICE.Materias.materiaPorId(id_materia_seleccionada)
+            .then( 
+                (materia)=> {   
+                    var materias_sin_eliminada = {};
+                    NOTEVOICE.Materias.buscar_todas().then(
+                        (materias) => {
+                            for (var i in materias){
+                                if (materias[i].id != id_materia_seleccionada) {
+                                    materias_sin_eliminada[materias[i].id] = materias[i];
+                                }
+                            }
+                            localforage.setItem('materias', materias_sin_eliminada)
+                                .then((materias)=>{
+                                    notevoice_app.dibujar_materias(materias);
+                                });
+                        });  // fin then
+                    $.mobile.changePage($("#listadoMaterias"));
+            }).catch( ()=>{
+                console.log("Error: materia seleccionada no existe");
+            });
+>>>>>>> 2a4ed2143b0ddf5f48a3a284468d9a1c6ca54ab6
     }
 };
 
