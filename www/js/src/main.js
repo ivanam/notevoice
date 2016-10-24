@@ -313,13 +313,18 @@ var notevoice_app = {
 
     cargar_Nota: function cargar_Nota() {
         var id = $(this).data('notaid');
-        NOTEVOICE.Notas.getNotaById(id).then((nota)=>{
-            $("#nota_detalle").text(nota.texto);
-            $.mobile.changePage($("#detalleNota"));        
-        }).catch(  // en caso de que haya error:
+        NOTEVOICE.Notas.getNotaById(id)
+            .then(
+                (nota)=>{
+                    $("#nota_detalle").text(nota.texto);
+                    $.mobile.changePage($("#detalleNota"));        
+                }
+            )
+            .catch(  // en caso de que haya error:
                 () => {
                     console.log("Error al buscar la nota");
-                });
+                }
+            );
     },
 
     cargar_notas_de_la_materia: function cargar_notas_de_la_materia() {
@@ -365,12 +370,24 @@ var notevoice_app = {
     },
 
     on__abrir_nota: function on__open_note(evento) {
+        var nota_seleccionada;
         console.log("cargar el texto de la nota");
         console.log("nota id");
         var nota__id_seleccionado = $(".nota__id", evento.currentTarget).text();
-        var nota_seleccionada = JSON.parse( localStorage.getItem("notas_por_semana_actual") )[nota__id_seleccionado];
+        var semana_actual = localStorage.getItem('semana_actual');
+        var notas_semana_seleccionada = JSON.parse( localStorage.getItem("notas_por_semana_actual") )[semana_actual];
+        for( nota_index in notas_semana_seleccionada){
+            var nota = notas_semana_seleccionada[nota_index];
+            if(nota.id == nota__id_seleccionado){
+                nota_seleccionada = nota;
+                break;
+            }
+        }
         console.log("nota seleccionada");
-        console.log(nota_seleccionada);
+        var template_content_nota = "<h4>Nota: #{{id}}</h4>";
+
+        template_content_nota += "<h3 id='nota_detalle'>{{texto}}</h3>";
+        $("#detalleNota__content").append(Mustache.to_html(template_content_nota, nota_seleccionada));
 
 
     },
