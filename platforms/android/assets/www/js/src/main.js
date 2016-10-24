@@ -52,6 +52,7 @@ var notevoice_app = {
         
         $listado_de_materias.empty();
         $(".pages_delete_materia").remove();
+
         // Por cada materia:
         for (var i = materias.length - 1; i >= 0; i--) {
             // Cargar los templates:
@@ -61,10 +62,10 @@ var notevoice_app = {
             // Y appendearlo a los elementos del DOM correspondientes:
             // - Item al listado de materias:
             $listado_de_materias.append(html_materia_en_lista);
-            $listado_de_materias.listview("refresh");
             // - Toda la page de materias:
             $("body").append(html_materia_page);
-        };
+        }
+        $listado_de_materias.listview("refresh");
         $(".modificar_materia").click(this.cargar_modificar_materia);
         $("#eliminar_materia").click(this.eliminar_materia_de_base);
 
@@ -72,8 +73,8 @@ var notevoice_app = {
             // desfazado porque la clase ver_semana pertenece a elementos
             // dinamicos!
             $(".abrir_semana").click(notevoice_app.on__abrir_semana);
+            $(".abrir_materia").click(notevoice_app.abrir_materia);
         }, 500);
-
     },
 
     enlazar_eventos: function bind_events() {
@@ -82,11 +83,11 @@ var notevoice_app = {
         $("#new_profesor").click(this.nuevo_profesor);
         $("#new_profesor_mod").click(this.nuevo_profesor_mod);
         $("#agregar_materia").click(this.agregar_materia);
-        setTimeout(function() {
+        // setTimeout(function() {
             // desfazado porque la clase ver_semana pertenece a elementos
             // dinamicos!
-            $(".abrir_materia").click(notevoice_app.abrir_materia);    
-        }, 500);
+            // $(".abrir_materia").click(notevoice_app.abrir_materia);
+        // }, 500);
         $("#btn-grabar-note-voice").click(this.manejador_grabacion);
         $("#guardar_nota").click(this.guardar_nota_en_base);
         $("#ver_notas").click(this.cargar_notas_de_la_materia);
@@ -148,8 +149,9 @@ var notevoice_app = {
         })
     },
     
-    abrir_materia: function abrir_materia () {
+    abrir_materia: function abrir_materia() {
         var materia_id = $(this).data('materiaid');
+        console.log(materia_id);
         localStorage.setItem("materia_actual", materia_id);
         notevoice_app.cargar_notas_de_la_materia(); //puenteo temporal
     },
@@ -191,25 +193,33 @@ var notevoice_app = {
             profesores.push($(this)[0].value);
         });
         
-        var materia = {
-                "id": $("#text-id").val(),
-                "nombre": $("#text-nombre").val(),
-                "profesores": profesores,
-                "temas_de_referencia": []
-        };
-        NOTEVOICE.Materias.guardar_materia(materia)
-            .then(  // luego, cuando vengan las materias:
-                (materias) => {
-                    notevoice_app.dibujar_materias(materias);
-                    console.log("Se agrego una materia");
-                }
-            )  // fin then;
-            .catch(  // en caso de que haya error:
-                () => {
-                    console.log("Error al cargar materia");
-                });
-        notevoice_app.limpiar_alta_materia();
-        $.mobile.changePage($("#listadoMaterias"));
+        NOTEVOICE.Materias.proximo_id().then( (id) => {
+            var materia = {
+                    "id": id,
+                    "nombre": $("#text-nombre").val(),
+                    "profesores": profesores,
+                    "temas_de_referencia": []
+            };
+            NOTEVOICE.Materias.guardar_materia(materia)
+                .then(  // luego, cuando vengan las materias:
+                    (materia) => {
+                        NOTEVOICE.Materias.buscar_todas()
+                        .then(  // luego, cuando vengan las materias:
+                            (materias) => {
+                                var materias_en_array = NOTEVOICE.Materias.materias_a_listado(materias);
+                                notevoice_app.dibujar_materias(materias_en_array);
+                                notevoice_app.limpiar_alta_materia();
+                                $.mobile.changePage($("#listadoMaterias"));
+                                console.log("Se agrego una materia");
+                            }
+                        )  // fin then;
+                    }
+                )  // fin then;
+                .catch(  // en caso de que haya error:
+                    () => {
+                        console.log("Error al cargar materia");
+                    });
+        });
     },
 
     guardar_materia_modificada: function guardar_materia_modificada() {
@@ -255,7 +265,6 @@ var notevoice_app = {
     },
 
     limpiar_alta_materia: function limpiar_alta_materia(){
-        $("#text-id")[0].value = "";
         $("#text-nombre")[0].value = "";
         $(".text-profesor")[0].value = "";
     },
@@ -394,10 +403,11 @@ var notevoice_app = {
 
     eliminar_materia_de_base: function eliminar_materia_de_base() {
         var id_materia_seleccionada = localStorage.getItem("materia_actual");
+        console.log(id_materia_seleccionada);
         NOTEVOICE.Materias.materiaPorId(id_materia_seleccionada)
             .then( 
                 (materia)=> {   
-                    var materias_sin_eliminada = {};
+                    var materias_sin_eliminada = [];
                     NOTEVOICE.Materias.buscar_todas().then(
                         (materias) => {
                             for (var i in materias){
@@ -407,10 +417,11 @@ var notevoice_app = {
                             }
                             localforage.setItem('materias', materias_sin_eliminada)
                                 .then((materias)=>{
-                                    notevoice_app.dibujar_materias(materias);
+                                    var materias_en_array = NOTEVOICE.Materias.materias_a_listado(materias);
+                                    notevoice_app.dibujar_materias(materias_en_array);
+                                    $.mobile.changePage($("#listadoMaterias"));
                                 });
                         });  // fin then
-                    $.mobile.changePage($("#listadoMaterias"));
             }).catch( ()=>{
                 console.log("Error: materia seleccionada no existe");
             });

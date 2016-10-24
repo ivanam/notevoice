@@ -102,8 +102,9 @@
 	    	 * Modo de uso:
 	    	 * 		NOTEVOICE.Materias.proximo_id().then((id) => console.log(id))
 	    	 */
-			return localforage.getItem('materias').then(function(materias) {
-			    var promise = new Promise(function(resolve, reject) {
+			return localforage.getItem('materias').then(function(materias_object) {
+				var materias = NOTEVOICE.Materias.materias_a_listado(materias_object);
+				var promise = new Promise(function(resolve, reject) {
 					if ( materias.length == 0 ) {
 						resolve( 1 );
 					};
