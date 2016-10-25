@@ -97,26 +97,11 @@
                 <ul data-role="listview" data-inset="true" class="listado__de__notas">
                     <!-- listado__de__notas se usa como identificador para cargar las notas dinamicamenchi -->
                 </ul>
-
-                <div class="ui-grid-d">
-                    <div class="ui-block-a"></div>
-                    <div class="ui-block-b">
-                        <a href='#listadoMaterias' data-role="button" data-icon="home" data-inline="true">
-                            Listado de semanas
-                        </a>
-                    </div>
-                    <div class="ui-block-c"></div>
-                    <div class="ui-block-d">
-                        <a href='#nuevaNota' data-role="button" data-icon="audio" data-inline="true">
-                            Nueva nota
-                        </a>
-                    </div>
-                    <div class="ui-block-e"></div>
-                </div><!-- /grid-a -->
             </div><!-- /content -->
             
-            <div data-role="footer">
+            <div data-role="footer" data-position="fixed">
                 <h6>Taller de nuevas tecnologías</h6>
+                <a href="#" id="volver_a_materia" class="ui-btn ui-icon-back ui-btn-icon-notext ui-corner-all ui-btn-right back_materia" data-inline="true"></a>
             </div><!-- /footer -->
         
         </div><!-- /page -->
@@ -127,34 +112,27 @@
 
             <div data-role="header">
                 <h1>Detalle de nota</h1>
+                <a href="#right-panel-nota" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all ui-btn-right" data-shadow="false"></a>
             </div><!-- /header -->
 
             <div data-role="content" id="detalleNota__content">
                 <!-- El contenido se carga dinamicamente! -->
             </div><!-- /content -->
 
-            <a href='#detalleSemana' data-role="button" data-icon="home" data-inline="true">Volver al detalle de semana</a>
-            <div data-role="footer">
+            <div data-role="panel" id="right-panel-nota" data-display="overlay" data-position="right" data-theme="c">
+                <ul data-role="listview" data-theme="d" data-icon="false">
+                    <li data-icon="delete"><a href="#" data-rel="close">Cerrar</a></li>
+                    <li data-role="list-divider">Menu Nota</li>
+                    <li data-icon="minus">
+                        <a href="#popupDialogDeleteNota" data-rel="dialog" data-transition="pop">Eliminar</a>
+                    </li>
+                    <li data-icon="edit" class="modificar_materia"><a href="#" id="cargar_popupDialogNota">Modificar</a></li>
+                </ul>
+            </div><!-- /panel -->
+
+            <div data-role="footer" data-position="fixed">
                 <h6>Taller de nuevas tecnologías</h6>
-            </div><!-- /footer -->
-        
-        </div><!-- /page -->
-
-        <!-- ############################### nuevaNota ############################### -->
-        
-        <div data-role="page" id="nuevaNota" data-dialog="true">
-
-            <div data-role="header">
-                <h1>Nueva nota</h1>
-            </div><!-- /header -->
-
-            <div data-role="content">
-                <h4>Nota:</h4>
-                <p>GRABAR</p>
-            </div><!-- /content -->
-
-            <div data-role="footer">
-                <h6>Taller de nuevas tecnologías</h6>
+                <a href="#detalleSemana" class="ui-btn ui-icon-back ui-btn-icon-notext ui-corner-all ui-btn-right back_materia" data-inline="true"></a>
             </div><!-- /footer -->
         
         </div><!-- /page -->
@@ -168,11 +146,12 @@
             </div><!-- /header -->
             <div data-role="content">
                 <h4>Transcripción de la Nota</h4>
-                <p id="nota_semana"></p>
+                <p id="nota_semana">Esta nota es un ejemplo de transcripcion de pasar un mensaje de voz a texto...</p>
                 <span>Id Materia: </span><p id="nota_materia"></p>
                 <span>Tema: </span><p id="nota_tema"></p>
                 <span>Nota: </span><p id="nota_transcripcion"></p>
             </div><!-- /content -->
+
             <div data-role="footer" data-position="fixed">
                 <a href="#" id="guardar_nota" class="ui-btn ui-icon-save ui-btn-icon-notext ui-corner-all ui-btn-left save-nota"></a>
                 <h6>Taller de nuevas tecnologías</h6>
@@ -207,6 +186,11 @@
         </div><!-- /page -->
 
 
+        
+        <!-- ######################################################################################################### -->
+        <!-- ######################################## POP UP DE ALERTA ############################################### -->
+        <!-- ######################################################################################################### -->
+
         <!-- Pop up para mostrar un alerta de confirmacion antes de guardar los cambios -->
         <div data-role="dialog" id="popupDialog">
             <div data-role="header" class="ui-corner-top">
@@ -235,6 +219,35 @@
         </div>
 
 
+        <!-- Pop up para mostrar un alerta de confirmacion antes de guardar los cambios en la NOTA -->
+        <div data-role="dialog" id="popupDialogNota">
+            <div data-role="header" class="ui-corner-top">
+                <h1>Modificar Nota</h1>
+            </div>
+            <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+                <input type="text" id="tema_nota_popup">
+                <textarea id="text_nota_popup">
+                </textarea> 
+                <a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="c">Cancel</a>
+                <a href="#" data-role="button" data-inline="true" data-transition="flow" data-theme="b" id="guardar_nota_modificada">Guardar</a>
+            </div>
+        </div>
+
+
+        <!-- Pop up para mostrar un alerta de confirmacion antes de eliminar una NOTA -->
+        <div data-role="dialog" id="popupDialogDeleteNota">
+            <div data-role="header" class="ui-corner-top">
+                <h1>Eliminar Nota?</h1>
+            </div>
+            <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+                <h3 class="ui-title">Esta seguro que desea eliminar la nota?</h3>
+                <p>Esta accion no se podrá deshacer.</p>
+                <a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="c">Cancel</a>
+                <a href="#" data-role="button" data-inline="true" data-transition="flow" data-theme="b" id="eliminar_nota">Eliminar</a>
+            </div>
+        </div>
+
+
         <!-- ######################################################################################################### -->
         <!-- ######################################## TEMPLATES ###################################################### -->
         <!-- ######################################################################################################### -->
@@ -247,7 +260,7 @@
             <div data-role='page' id='materia_{{id}}' class='pages_delete_materia'>
                 <div data-role='header'>
                     <h1>Datos Materia</h1>
-                    <a href="#right-panel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all ui-btn-right record_note" data-shadow="false"></a>
+                    <a href="#right-panel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all ui-btn-right" data-shadow="false"></a>
                 </div>
 
                 <div data-role='content'>
@@ -289,7 +302,7 @@
                         <li data-icon="minus">
                             <a href="#popupDialogDelete" data-rel="dialog" data-transition="pop">Eliminar</a>
                         </li>
-                        <li data-icon="edit" class="modificar_materia"><a href="#modificarMateria">Modificacion</a></li>
+                        <li data-icon="edit" class="modificar_materia"><a href="#modificarMateria">Modificar</a></li>
                     </ul>
                 </div><!-- /panel -->
 

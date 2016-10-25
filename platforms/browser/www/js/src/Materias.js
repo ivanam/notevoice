@@ -18,7 +18,7 @@
 	    	  				id: 1,
 	    	  				texto: 'Nota por defecto',
 							numero_de_semana: 1,
-							tema_de_referencia: 'Test'
+							tema_de_referencia: 'PHP'
 	    	  			}
 	    	  	}
 		},
@@ -30,8 +30,8 @@
 			    ],
 			    "temas_de_referencia": [],
 			    "notas": {
-	    	  			1: { // el id de la nota
-	    	  				id: 1,
+	    	  			4: { // el id de la nota
+	    	  				id: 4,
 	    	  				texto: 'Nota por defecto',
 							numero_de_semana: 1,
 							tema_de_referencia: 'Test'
@@ -52,11 +52,11 @@
 			    ],
 			    "temas_de_referencia": [],
 			    "notas": {
-		  			1: { // el id de la nota
-		  				id: 1,
+		  			3: { // el id de la nota
+		  				id: 3,
 		  				texto: 'Nota por defecto de simulacion',
 						numero_de_semana: 1,
-						tema_de_referencia: 'Test'
+						tema_de_referencia: 'Simula'
 		  			},
 			    	
 			    }

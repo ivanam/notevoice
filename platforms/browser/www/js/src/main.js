@@ -93,6 +93,10 @@ var notevoice_app = {
         $("#ver_notas").click(this.cargar_notas_de_la_materia);
         $("#guardar_materia_modificada").click(this.guardar_materia_modificada);
         $("#event_limpiar_mod_materia").click(this.limpiar_mod_materia);
+        $("#volver_a_materia").click(this.volver_a_materia_actual);
+        $("#eliminar_nota").click(this.eliminar_nota_en_base);
+        $("#cargar_popupDialogNota").click(this.recuperar_nota_en_popup);
+        $("#guardar_nota_modificada").click(this.guardar_nota_modificada);
     },
 
     nueva_materia: function nueva_materia () {
@@ -359,6 +363,7 @@ var notevoice_app = {
     },
 
     on__abrir_semana: function on__open_week() {
+        // debugger;
         // console.log("abrir semana!");
         // console.log($(this).attr("semana-id"));
         id_semana_seleccionada = $(this).attr("semana-id");
@@ -393,12 +398,18 @@ var notevoice_app = {
             }
         }
         console.log("nota seleccionada");
-        var template_content_nota = "<h4>Nota: #{{id}}</h4>";
-
+        $("#detalleNota__content").empty();
+        
+        var template_content_nota = "<h4 id='nota_actual' nota-id={{id}} tema-referencia={{tema_de_referencia}}>Nota: #{{id}}</h4>";
         template_content_nota += "<h3 id='nota_detalle'>{{texto}}</h3>";
         $("#detalleNota__content").append(Mustache.to_html(template_content_nota, nota_seleccionada));
 
 
+    },
+
+    volver_a_materia_actual: function volver_a_materia_actual() {
+        var materia_a_retornar = localStorage.getItem("materia_actual");
+        $.mobile.changePage($("#materia_"+materia_a_retornar));
     },
 
     eliminar_materia_de_base: function eliminar_materia_de_base() {
@@ -425,6 +436,60 @@ var notevoice_app = {
             }).catch( ()=>{
                 console.log("Error: materia seleccionada no existe");
             });
+    },
+
+    eliminar_nota_en_base: function eliminar_nota_en_base() {
+        var id_materia_seleccionada = localStorage.getItem("materia_actual");
+        var id_nota_seleccionada = $('#nota_actual').attr("nota-id");
+        NOTEVOICE.Materias.materiaPorId(id_materia_seleccionada)
+            .then( 
+                (materia)=> {
+                    var notas_sin_eliminada = {};
+                    for (var id_nota in materia.notas){
+                        if (id_nota != id_nota_seleccionada)
+                            notas_sin_eliminada[id_nota] = materia.notas[id_nota];
+                    }
+                    materia.notas = notas_sin_eliminada;
+                    NOTEVOICE.Materias.guardar_materia(materia)
+                        .then(  // luego, cuando vengan las materias:
+                            (materia) => {
+                                notevoice_app.cargar_notas_de_la_materia();
+                                notevoice_app.volver_a_materia_actual();
+                            }
+                        );
+                }
+            );
+    },
+
+    recuperar_nota_en_popup: function recuperar_nota_en_popup() {
+        var nota = $("#nota_detalle").text();
+        var tema = $('#nota_actual').attr("tema-referencia");
+        $("#text_nota_popup").val(nota);
+        $("#tema_nota_popup").val(tema);
+        $.mobile.changePage($("#popupDialogNota"));
+    },
+
+    guardar_nota_modificada: function guardar_nota_modificada() {
+        var nota_modificada = $("#text_nota_popup").val();
+        var tema_modificado = $("#tema_nota_popup").val();
+        var id_nota_modificada = $('#nota_actual').attr("nota-id");
+        var id_materia_actual = localStorage.getItem("materia_actual");
+        NOTEVOICE.Materias.materiaPorId(id_materia_actual)
+            .then( 
+                (materia)=> {
+                    var notas_de_materia = materia.notas;
+                    notas_de_materia[id_nota_modificada].tema_de_referencia = tema_modificado;
+                    notas_de_materia[id_nota_modificada].texto = nota_modificada;
+                    materia.notas = notas_de_materia;
+                    NOTEVOICE.Materias.guardar_materia(materia)
+                        .then(  // luego, cuando vengan las materias:
+                            (materia) => {
+                                notevoice_app.cargar_notas_de_la_materia();
+                                notevoice_app.volver_a_materia_actual();
+                            }
+                        );
+                }
+            );
     }
 };
 

@@ -70,14 +70,12 @@ span.ui-icon-plus:hover, span.ui-icon-minus:hover{
     width: 50px;
     z-index: 9999;
 }
-
 .nota__tema_de_referencia{
     background: #c1ded4;
     border-radius: 5px;
     padding: .5%;
     float: left;
 }
-
 .nota_en_listado__id{
     float: left;
     padding: .5%;
