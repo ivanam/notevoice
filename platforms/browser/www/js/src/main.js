@@ -300,7 +300,22 @@ var notevoice_app = {
         var nota = $('#nota_transcripcion').text();
         var materia = $('#nota_transcripcion').data('materia');
         var semana = $('#nota_transcripcion').data('semana');
-        console.log("Guardando materia: "+materia+" semana: "+semana+" nota: "+nota);
+        NOTEVOICE.Materias.materiaPorId(id_materia_actual)
+            .then( 
+                (materia)=> {
+                    var notas_de_materia = materia.notas;
+                    notas_de_materia[id_nota_modificada].tema_de_referencia = tema_modificado;
+                    notas_de_materia[id_nota_modificada].texto = nota_modificada;
+                    materia.notas = notas_de_materia;
+                    NOTEVOICE.Materias.guardar_materia(materia)
+                        .then(  // luego, cuando vengan las materias:
+                            (materia) => {
+                                notevoice_app.cargar_notas_de_la_materia();
+                                notevoice_app.volver_a_materia_actual();
+                            }
+                        );
+                }
+            );
     },
 
     verificar_nota: function verificar_nota(resultado) {

@@ -286,8 +286,6 @@ var notevoice_app = {
         var promptString = "Hable Ahora!"; // optional
         var language = "es-AR";                     // optional
         window.plugins.speechrecognizer.startRecognize(function(result){
-            $('#nota_semana').text(localStorage.getItem("semana_actual"));
-            $('#nota_materia').text(localStorage.getItem("materia_actual"));
             notevoice_app.verificar_nota(result);
             $.mobile.changePage($("#notaTranscripcion"));
 
@@ -297,10 +295,34 @@ var notevoice_app = {
     },
 
     guardar_nota_en_base: function guardar_nota_en_base () {
-        var nota = $('#nota_transcripcion').text();
-        var materia = $('#nota_transcripcion').data('materia');
-        var semana = $('#nota_transcripcion').data('semana');
-        console.log("Guardando materia: "+materia+" semana: "+semana+" nota: "+nota);
+        NOTEVOICE.Materias.proximo_id_de_notas()
+            .then(
+                (id)=>{
+                    var nota_nueva = {
+                        id: id,
+                        texto: $('#nota_transcripcion').text(),
+                        numero_de_semana: localStorage.getItem("semana_actual"),
+                        tema_de_referencia: $('#nota_tema').text()
+                    };
+                    console.log(nota_nueva);
+                    var id_materia_actual = localStorage.getItem("materia_actual");
+                    NOTEVOICE.Materias.materiaPorId(id_materia_actual)
+                        .then( 
+                            (materia)=> {
+                                var notas_de_materia = materia.notas;
+                                notas_de_materia[nota_nueva.id] = nota_nueva;
+                                materia.notas = notas_de_materia;
+                                NOTEVOICE.Materias.guardar_materia(materia)
+                                    .then(  // luego, cuando vengan las materias:
+                                        (materia) => {
+                                            notevoice_app.cargar_notas_de_la_materia();
+                                            notevoice_app.volver_a_materia_actual();
+                                        }
+                                    );
+                            }
+                        );
+                }
+            );
     },
 
     verificar_nota: function verificar_nota(resultado) {
