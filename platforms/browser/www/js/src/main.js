@@ -117,7 +117,6 @@ var notevoice_app = {
                 $("#nombre_profesor_mod").val(materia.profesores[0]);
                 for (var id in materia.profesores) {
                     if (id != 0) {
-                        // debugger;
                         var html_profesor = Mustache.to_html(template_input_text, {"text-profesor":materia.profesores[id]});
                         var html_btn_delete = Mustache.to_html(template_btn_eliminar, {"id":id});
                         $(html_profesor).insertAfter($(".text-profesor-mod").last().parent());
@@ -202,7 +201,8 @@ var notevoice_app = {
                     "id": id,
                     "nombre": $("#text-nombre").val(),
                     "profesores": profesores,
-                    "temas_de_referencia": []
+                    "temas_de_referencia": [],
+                    "notas": {} 
             };
             NOTEVOICE.Materias.guardar_materia(materia)
                 .then(  // luego, cuando vengan las materias:
@@ -285,33 +285,44 @@ var notevoice_app = {
         var maxMatches = 1;
         var promptString = "Hable Ahora!"; // optional
         var language = "es-AR";                     // optional
-        window.plugins.speechrecognizer.startRecognize(function(result){
-            $('#nota_semana').text(localStorage.getItem("semana_actual"));
-            $('#nota_materia').text(localStorage.getItem("materia_actual"));
-            notevoice_app.verificar_nota(result);
-            $.mobile.changePage($("#notaTranscripcion"));
+        // window.plugins.speechrecognizer.startRecognize(function(result){
+        //     $('#nota_semana').text(localStorage.getItem("semana_actual"));
+        //     $('#nota_materia').text(localStorage.getItem("materia_actual"));
+        //     notevoice_app.verificar_nota(result);
+        //     $.mobile.changePage($("#notaTranscripcion"));
+        var result = {0:"tema pepe nota esta nota es manual para ver xq no se guardan en materias nuevas"};
+        notevoice_app.verificar_nota(result);
+        $.mobile.changePage($("#notaTranscripcion"));
 
-        }, function(errorMessage){
-            console.log("Error message: " + errorMessage);
-        }, maxMatches, promptString, language);
+        // }, function(errorMessage){
+        //     console.log("Error message: " + errorMessage);
+        // }, maxMatches, promptString, language);
     },
 
     guardar_nota_en_base: function guardar_nota_en_base () {
-        var nota = $('#nota_transcripcion').text();
-        var materia = $('#nota_transcripcion').data('materia');
-        var semana = $('#nota_transcripcion').data('semana');
-        NOTEVOICE.Materias.materiaPorId(id_materia_actual)
-            .then( 
-                (materia)=> {
-                    var notas_de_materia = materia.notas;
-                    notas_de_materia[id_nota_modificada].tema_de_referencia = tema_modificado;
-                    notas_de_materia[id_nota_modificada].texto = nota_modificada;
-                    materia.notas = notas_de_materia;
-                    NOTEVOICE.Materias.guardar_materia(materia)
-                        .then(  // luego, cuando vengan las materias:
-                            (materia) => {
-                                notevoice_app.cargar_notas_de_la_materia();
-                                notevoice_app.volver_a_materia_actual();
+        NOTEVOICE.Materias.proximo_id_de_notas()
+            .then(
+                (id)=>{
+                    var nota_nueva = {
+                        id: id,
+                        texto: $('#nota_transcripcion').text(),
+                        numero_de_semana: localStorage.getItem("semana_actual"),
+                        tema_de_referencia: $('#nota_tema').text()
+                    };
+                    var id_materia_actual = localStorage.getItem("materia_actual");
+                    NOTEVOICE.Materias.materiaPorId(id_materia_actual)
+                        .then( 
+                            (materia)=> {
+                                var notas_de_materia = materia.notas;
+                                notas_de_materia[nota_nueva.id] = nota_nueva;
+                                materia.notas = notas_de_materia;
+                                NOTEVOICE.Materias.guardar_materia(materia)
+                                    .then(  // luego, cuando vengan las materias:
+                                        (materia) => {
+                                            notevoice_app.cargar_notas_de_la_materia();
+                                            notevoice_app.volver_a_materia_actual();
+                                        }
+                                    );
                             }
                         );
                 }
@@ -359,7 +370,6 @@ var notevoice_app = {
         console.log("ON: cargar_notas_de_la_materia");
         var materia_id= localStorage.getItem("materia_actual"); // 
         console.log("ON: cargar_notas_de_la_materia -> a la promesa...");
-        // debugger;
         NOTEVOICE.Materias.notas_de_materia(materia_id).then(
             (semanas) => {
                 console.log("ON: cargar_notas_de_la_materia -> then de la promesa...");
@@ -378,7 +388,6 @@ var notevoice_app = {
     },
 
     on__abrir_semana: function on__open_week() {
-        // debugger;
         // console.log("abrir semana!");
         // console.log($(this).attr("semana-id"));
         id_semana_seleccionada = $(this).attr("semana-id");
@@ -394,8 +403,8 @@ var notevoice_app = {
             $(".listado__de__notas").append(nota_en_listado);
         }
         $(".abrir_nota").click(notevoice_app.on__abrir_nota);
-        $(".listado__de__notas").listview("refresh");
-
+        if (notas_de_la_semana.length > 0)
+            $(".listado__de__notas").listview("refresh");
     },
 
     on__abrir_nota: function on__open_note(evento) {
@@ -414,12 +423,11 @@ var notevoice_app = {
         }
         console.log("nota seleccionada");
         $("#detalleNota__content").empty();
-        
-        var template_content_nota = "<h4 id='nota_actual' nota-id={{id}} tema-referencia={{tema_de_referencia}}>Nota: #{{id}}</h4>";
+        var template_content_nota = "<h4 id='nota_actual' nota-id={{id}}>Nota: #{{id}}</h4>";
+        template_content_nota += "<h3 hidden='true' id='tema_referencia'>{{tema_de_referencia}}</h3>";
         template_content_nota += "<h3 id='nota_detalle'>{{texto}}</h3>";
-        $("#detalleNota__content").append(Mustache.to_html(template_content_nota, nota_seleccionada));
-
-
+        var html_content_nota = Mustache.to_html(template_content_nota, nota_seleccionada);
+        $("#detalleNota__content").append(html_content_nota);
     },
 
     volver_a_materia_actual: function volver_a_materia_actual() {
@@ -478,7 +486,7 @@ var notevoice_app = {
 
     recuperar_nota_en_popup: function recuperar_nota_en_popup() {
         var nota = $("#nota_detalle").text();
-        var tema = $('#nota_actual').attr("tema-referencia");
+        var tema = $('#tema_referencia').text();
         $("#text_nota_popup").val(nota);
         $("#tema_nota_popup").val(tema);
         $.mobile.changePage($("#popupDialogNota"));

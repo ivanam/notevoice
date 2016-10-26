@@ -316,15 +316,18 @@
 				// do a thing, possibly async, then…
 	    		app.Materias._todas_las_notas().then(
 	    			(notas) => {
-						var notas_ids = $.map(notas, function(nota, index) {
-						    return [nota.id];
-						});
-						function getMaxOfArray(numArray) {
-							return Math.max.apply(null, numArray);
-						}
+	    				if (notas.length == 0)
+	    					resolve(1);
+	    				else{
+		    				var notas_ids = $.map(notas, function(nota, index) {
+							    return [nota.id];
+							});
+							function getMaxOfArray(numArray) {
+								return Math.max.apply(null, numArray);
+							}
 
-						resolve( getMaxOfArray(notas_ids) + 1 );
-
+							resolve( getMaxOfArray(notas_ids) + 1 );
+	    				}
 	    			})
 			});
 			return promesa_de_proximo_id_de_nota;	    	
