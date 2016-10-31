@@ -262,15 +262,14 @@
                 </div>
 
                 <div data-role='content'>
-                    <p id='descripcion'>{{nombre}}</p>
-                    <h4>Profesores:</h4>
-                    <ul>
-                        {{#profesores}}
-                            <li>{{.}}</li>
-                        {{/profesores}}
-                    </ul>
-
-                    <h4>Semanas:</h4>
+                    <h5>Nombre:</h5>
+                    <h3 id='descripcion'>{{nombre}}</h3>
+                    <h5>Profesores:</h5>
+                    {{#profesores}}
+                        <h3>{{.}}</h3>
+                    {{/profesores}}
+                    <br>
+                    <h5>Semanas:</h5>
                     <ul data-role="listview" data-inset="true" class="listado__de__semanas">
                         <!-- listado__de__materias se usa como identificador para cargar materias dinamicamenchi -->
                         <li><a href="#detalleSemana" class="abrir_semana" semana-id="1">Semana 1</a></li>
@@ -309,6 +308,26 @@
                     <a href="#listadoMaterias" class="ui-btn ui-icon-back ui-btn-icon-notext ui-corner-all ui-btn-right back_materia" data-inline="true"></a>
                 </div>
             </div>
+        </script>
+
+        
+        <script type="text/html" id="nota_content__template">
+            <!--
+                nota_content__template
+
+                template utilizado por el mainjs,
+                para cargar el contenido de la
+                nota en el #detalleNota__content
+            -->
+            <h5 id="nota_actual" nota-id="{{id}}">
+                Nota: <strong>#{{id}}</strong>
+            </h5>
+            <h3 id="nota_detalle">
+                {{texto}}
+            </h3>
+            <h5 id="tema_referencia" class="nota__tema_de_referencia">
+                <i>{{tema_de_referencia}}</i>
+            </h5>
         </script>
 
         <script type="text/javascript" src="cordova.js"></script>

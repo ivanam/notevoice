@@ -79,7 +79,6 @@ var notevoice_app = {
 
     enlazar_eventos: function bind_events() {
         $("#nueva_materia").click(this.nueva_materia);
-        // $(".ver_notas").click(this.ver_notas);
         $("#new_profesor").click(this.nuevo_profesor);
         $("#new_profesor_mod").click(this.nuevo_profesor_mod);
         $("#agregar_materia").click(this.agregar_materia);
@@ -100,6 +99,10 @@ var notevoice_app = {
     },
 
     nueva_materia: function nueva_materia () {
+        /*
+         * Funcion que se ejecuta cuando se clique el boton "NUEVA MATERIA"
+         * en la pagina principal, del inicio
+         */
         localStorage.setItem("cantProfesor",1);
         $.mobile.changePage($("#altaMateria"));
     },
@@ -285,18 +288,14 @@ var notevoice_app = {
         var maxMatches = 1;
         var promptString = "Hable Ahora!"; // optional
         var language = "es-AR";                     // optional
-        // window.plugins.speechrecognizer.startRecognize(function(result){
-        //     $('#nota_semana').text(localStorage.getItem("semana_actual"));
-        //     $('#nota_materia').text(localStorage.getItem("materia_actual"));
-        //     notevoice_app.verificar_nota(result);
-        //     $.mobile.changePage($("#notaTranscripcion"));
-        var result = {0:"tema pepe nota esta nota es manual para ver xq no se guardan en materias nuevas"};
-        notevoice_app.verificar_nota(result);
-        $.mobile.changePage($("#notaTranscripcion"));
-
-        // }, function(errorMessage){
-        //     console.log("Error message: " + errorMessage);
-        // }, maxMatches, promptString, language);
+        window.plugins.speechrecognizer.startRecognize(function(result){
+            $('#nota_semana').text(localStorage.getItem("semana_actual"));
+            $('#nota_materia').text(localStorage.getItem("materia_actual"));
+            notevoice_app.verificar_nota(result);
+            $.mobile.changePage($("#notaTranscripcion"));
+        }, function(errorMessage){
+            console.log("Error message: " + errorMessage);
+        }, maxMatches, promptString, language);
     },
 
     guardar_nota_en_base: function guardar_nota_en_base () {
@@ -396,7 +395,18 @@ var notevoice_app = {
         $(".listado__de__notas").empty();
         // console.log("notas de la semana");
         // console.log(notas_de_la_semana);
-        var template__nota_en_listado = "<li> <a href='#detalleNota' class='abrir_nota'><span class='nota__tema_de_referencia'><i>{{ tema_de_referencia }}</i></span> <span class='nota_en_listado__id'>Nota #<span class='nota__id'>{{ id }}</span></span></a></li>";
+        var template__nota_en_listado = "";
+        
+        template__nota_en_listado += "<li>";
+        template__nota_en_listado += "    <a href='#detalleNota' class='abrir_nota'>";
+        template__nota_en_listado += "        <span class='nota__tema_de_referencia'>";
+        template__nota_en_listado += "            <i>{{ tema_de_referencia }}</i>";
+        template__nota_en_listado += "        </span>";
+        template__nota_en_listado += "        <span class='nota_en_listado__id'>";
+        template__nota_en_listado += "            Nota #<span class='nota__id'>{{ id }}</span>";
+        template__nota_en_listado += "        </span>";
+        template__nota_en_listado += "    </a>";
+        template__nota_en_listado += "</li>";
         for (var i = notas_de_la_semana.length - 1; i >= 0; i--) {
             var nota = notas_de_la_semana[i];
             var nota_en_listado = Mustache.to_html(template__nota_en_listado, nota);
@@ -423,10 +433,9 @@ var notevoice_app = {
         }
         console.log("nota seleccionada");
         $("#detalleNota__content").empty();
-        var template_content_nota = "<h4 id='nota_actual' nota-id={{id}}>Nota: #{{id}}</h4>";
-        template_content_nota += "<h3 hidden='true' id='tema_referencia'>{{tema_de_referencia}}</h3>";
-        template_content_nota += "<h3 id='nota_detalle'>{{texto}}</h3>";
-        var html_content_nota = Mustache.to_html(template_content_nota, nota_seleccionada);
+        var html_content_nota = Mustache.to_html(
+            $("#nota_content__template").text(),
+            nota_seleccionada);
         $("#detalleNota__content").append(html_content_nota);
     },
 

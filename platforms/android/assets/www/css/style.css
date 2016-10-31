@@ -74,6 +74,8 @@ span.ui-icon-plus:hover, span.ui-icon-minus:hover{
     background: #c1ded4;
     border-radius: 5px;
     padding: .5%;
+}
+.abrir_nota .nota__tema_de_referencia{
     float: left;
 }
 .nota_en_listado__id{

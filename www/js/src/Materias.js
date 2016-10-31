@@ -16,7 +16,7 @@
 	    	  		
 	    	  			1: { // el id de la nota
 	    	  				id: 1,
-	    	  				texto: 'Nota por defecto',
+	    	  				texto: 'Nota por defecto APP WEB',
 							numero_de_semana: 1,
 							tema_de_referencia: 'PHP'
 	    	  			}
@@ -32,13 +32,13 @@
 			    "notas": {
 	    	  			4: { // el id de la nota
 	    	  				id: 4,
-	    	  				texto: 'Nota por defecto',
+	    	  				texto: 'Nota por defecto Paradigmas',
 							numero_de_semana: 1,
 							tema_de_referencia: 'Test'
 	    	  			},
 	    	  			2: { // el id de la nota
 	    	  				id: 2,
-	    	  				texto: 'Nota por defecto 2',
+	    	  				texto: 'Nota por defecto Paradigmas 2',
 							numero_de_semana: 2,
 							tema_de_referencia: 'Test'
 	    	  			}
