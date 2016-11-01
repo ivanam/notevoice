@@ -45,10 +45,18 @@
             </div><!-- /header -->
 
             <div data-role="content">
+                <a href="#panel-de-busqueda" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all ui-btn-right" data-shadow="false"></a>
                 <h4>Listado de materias</h4>
                 <ul data-role="listview" data-inset="true" class="listado__de__materias">
                     <!-- listado__de__materias se usa como identificador para cargar materias dinamicamenchi -->
                 </ul>
+
+                <div data-role="panel" id="panel-de-busqueda" data-display="overlay" data-position="right" data-theme="c">
+                    <div class="ui-input-search ui-body-inherit ui-corner-all ui-shadow-inset ui-input-has-clear">
+                        <input data-type="search" data-enhanced="true" data-inset="false" id="filtro_busqueda_de_notas" placeholder="Filter items..." value="au">
+                    </div>
+                </div><!-- /panel -->
+
             </div><!-- /content -->
 
             <a href="#" data-role="button" data-icon="plus" data-iconpos="right" data-inline="true" id="nueva_materia">Nueva materia</a>

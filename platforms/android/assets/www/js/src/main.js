@@ -96,6 +96,8 @@ var notevoice_app = {
         $("#eliminar_nota").click(this.eliminar_nota_en_base);
         $("#cargar_popupDialogNota").click(this.recuperar_nota_en_popup);
         $("#guardar_nota_modificada").click(this.guardar_nota_modificada);
+
+        $("#filtro_busqueda_de_notas").change( this.on__tipeo_busqueda_de_nota );
     },
 
     nueva_materia: function nueva_materia () {
@@ -522,6 +524,21 @@ var notevoice_app = {
                         );
                 }
             );
+    },
+
+    on__tipeo_busqueda_de_nota: function on__typing_search_of_note( evento ) {
+
+        var texto_a_buscar = $(evento.currentTarget).val();
+        
+        console.log("BUSCAR NOTA QUE CONTENGA: "+texto_a_buscar);
+        if ( texto_a_buscar.length > 0 ) {
+            console.log("BUSCAR!");
+            NOTEVOICE.Materias.notas_que_contiene_el_texto("Paradigmas")
+                .then( (notas) => console.log(notas))
+        }else{
+            console.log("NO BUSCAR!");
+        }
+
     }
 };
 

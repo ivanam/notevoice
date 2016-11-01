@@ -133,6 +133,9 @@
 	    	/*
 	    	 * Devuelve las materias de la base de datos,
 	    	 * si no las encuentra, rejectea la promesa.
+	    	 * 
+	    	 * Return:
+	    	 * 		Array de Materias.
 	    	 */
 	    	var promesa_de_buscar_todas = new Promise(function(resolve, reject) {
 			  // do a thing, possibly async, then…
@@ -331,6 +334,32 @@
 	    			})
 			});
 			return promesa_de_proximo_id_de_nota;	    	
+	    },
+
+	    notas_que_contiene_el_texto: function notes_that_contains_the_text( que_texto ) {
+	    	/*
+	    	 * Devuelve las notas que en su texto contienen que_texto.
+	    	 * 
+	    	 * Return:
+	    	 * 		Array de notas que cumplen el criterio.
+	    	 * 		
+	    	 * Ejemplo:
+	    	 * 		NOTEVOICE.Materias.notas_que_contiene_el_texto("Paradigmas").then( (notas) => console.log(notas))
+	    	 */
+			var promesa_de_las_notas = new Promise(function(resolve, reject) {
+				// do a thing, possibly async, then…
+	    		app.Materias._todas_las_notas().then(
+	    			(notas) => {
+	    				var notas_que_cumplen = [];
+	    				for (var i = notas.length - 1; i >= 0; i--) {
+	    					var nota = notas[i];
+		    				if ( nota.texto.indexOf(que_texto) != -1 )
+		    					notas_que_cumplen.push(nota);
+	    				}
+	    				resolve( notas_que_cumplen );
+	    			})
+			});
+			return promesa_de_las_notas;	    	
 	    }
 
 
