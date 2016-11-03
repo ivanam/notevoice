@@ -397,21 +397,10 @@ var notevoice_app = {
         $(".listado__de__notas").empty();
         // console.log("notas de la semana");
         // console.log(notas_de_la_semana);
-        var template__nota_en_listado = "";
-        
-        template__nota_en_listado += "<li>";
-        template__nota_en_listado += "    <a href='#detalleNota' class='abrir_nota'>";
-        template__nota_en_listado += "        <span class='nota__tema_de_referencia'>";
-        template__nota_en_listado += "            <i>{{ tema_de_referencia }}</i>";
-        template__nota_en_listado += "        </span>";
-        template__nota_en_listado += "        <span class='nota_en_listado__id'>";
-        template__nota_en_listado += "            Nota #<span class='nota__id'>{{ id }}</span>";
-        template__nota_en_listado += "        </span>";
-        template__nota_en_listado += "    </a>";
-        template__nota_en_listado += "</li>";
         for (var i = notas_de_la_semana.length - 1; i >= 0; i--) {
             var nota = notas_de_la_semana[i];
-            var nota_en_listado = Mustache.to_html(template__nota_en_listado, nota);
+            var nota_en_listado = Mustache.to_html(
+                $("#nota_en_listado__template").text(), nota);
             $(".listado__de__notas").append(nota_en_listado);
         }
         $(".abrir_nota").click(notevoice_app.on__abrir_nota);
