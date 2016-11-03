@@ -83,3 +83,12 @@ span.ui-icon-plus:hover, span.ui-icon-minus:hover{
     padding: .5%;
     margin-left: 1%;
 }
+
+
+.nota_encontrada__head{
+    font-size: 0.6em;
+}
+
+.nota_encontrada__body{
+    font-size: 0.8em;
+}

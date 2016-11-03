@@ -36,6 +36,12 @@
 							numero_de_semana: 1,
 							tema_de_referencia: 'Test'
 	    	  			},
+	    	  			5: { // el id de la nota
+	    	  				id: 5,
+	    	  				texto: 'Otra nota de la misma semana',
+							numero_de_semana: 1,
+							tema_de_referencia: 'Test'
+	    	  			},
 	    	  			2: { // el id de la nota
 	    	  				id: 2,
 	    	  				texto: 'Nota por defecto Paradigmas 2',
@@ -360,7 +366,41 @@
 	    			})
 			});
 			return promesa_de_las_notas;	    	
-	    }
+	    },
+
+  	    materia_que_contiene_la_nota: function(nota_id){
+	    	/*
+				Retorna la promesa de buscar una materia que en sus notas contenga
+				la nota con el id recibido
+				using ES6 Promises...
+
+				Ejemplo de uso:
+					NOTEVOICE.Materias.materia_que_contiene_la_nota(3).then((materia) => {
+	                    console.log("Materia "+materia.nombre);
+	                });
+	    	*/
+	    	
+			return this
+				.buscar_todas()
+				.then( function(materias) {
+				    var promise = new Promise(function(resolve, reject) {
+						if ( materias.length == 0 ) {
+							reject(Error("No encontre la materia length 0"));
+						}
+						for (var i = materias.length - 1; i >= 0; i--) {
+							var materia_i = materias[i];
+							if ( nota_id in materia_i.notas ) {
+								// cuando encontramos la materia, resolvemos la promesa:
+								resolve( materia_i );
+							}
+						}
+						reject(Error("No encontre la nota en ninguna materia. ID no existe"));
+					});
+					return promise;
+				})
+	    },
+
+
 
 
 	};

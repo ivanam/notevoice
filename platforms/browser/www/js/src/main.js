@@ -420,6 +420,8 @@ var notevoice_app = {
     },
 
     on__abrir_nota: function on__open_note(evento) {
+        /* Despliega la informacion de la nota cliqueada 
+        */
         var nota_seleccionada;
         console.log("cargar el texto de la nota");
         console.log("nota id");
@@ -439,6 +441,70 @@ var notevoice_app = {
             $("#nota_content__template").text(),
             nota_seleccionada);
         $("#detalleNota__content").append(html_content_nota);
+    },
+    
+    on__abrir_nota_desde_buscador: function on__open_note_from_search(evento) {
+        // cual es el id de la nota?
+        // puedo recuperar esa nota?
+        // me conviene recuperar la materia que contiene esa nota?
+        //    --> MAterias.get_materia_que_contiene_nota(nota__id)
+        // con la materia puedo pedirle las notas ordenadas por semana! Materia.notas_de_materia(materia__id)
+        // tomamos entonces, este enfoque.
+        var nota__id_seleccionado = $(".nota__id", evento.currentTarget).text();
+
+        NOTEVOICE.Materias
+            .materia_que_contiene_la_nota(nota__id_seleccionado)
+            .then( ( materia ) => {
+                // Tengo la materia:
+                // Entonces, recupero la nota:
+                // debugger;
+                var la_nota = materia.notas[ nota__id_seleccionado ];
+
+                notevoice_app.__rellenar_detalle_de_nota(la_nota);
+                localStorage.setItem("materia_actual", materia.id);
+                localStorage.setItem("semana_actual", la_nota.numero_de_semana );
+                NOTEVOICE.Materias
+                    .notas_de_materia(materia.id)
+                    .then( dibujar_notas_de_la_semana )                
+                
+            })
+
+        function dibujar_notas_de_la_semana(semanas) {
+            /* Dibuja las notas de la semana de la nota actual.
+             * Para que cuando se haga para atras en Detalle de la NOTA,
+             * se vean las otras notas de la semana
+             */
+            var numero_de_semana_actual = localStorage.getItem("semana_actual");
+            localStorage.setItem("notas_por_semana_actual", JSON.stringify( semanas ));
+            var notas_de_la_semana = semanas[ numero_de_semana_actual ];
+            $(".listado__de__notas").empty();
+            for (var i = notas_de_la_semana.length - 1; i >= 0; i--) {
+                var nota = notas_de_la_semana[i];
+                var nota_en_listado = Mustache.to_html(
+                    $("#nota_en_listado__template").text(),
+                    nota);
+                $(".listado__de__notas").append(nota_en_listado);
+            }
+
+            $(".abrir_nota").click(notevoice_app.on__abrir_nota);
+
+
+        }
+    },
+
+    __rellenar_detalle_de_nota(nota){
+        /*
+         Dibuja la informacion de la nota recibida.
+
+         Params:
+            nota: Object nota a dibujar
+        */
+        $("#detalleNota__content")
+            .empty()
+            .append(
+                Mustache.to_html(
+                    $("#nota_content__template").text(),
+                    nota ));
     },
 
     volver_a_materia_actual: function volver_a_materia_actual() {
@@ -533,10 +599,45 @@ var notevoice_app = {
         console.log("BUSCAR NOTA QUE CONTENGA: "+texto_a_buscar);
         if ( texto_a_buscar.length > 0 ) {
             console.log("BUSCAR!");
-            NOTEVOICE.Materias.notas_que_contiene_el_texto("Paradigmas")
-                .then( (notas) => console.log(notas))
+            NOTEVOICE.Materias.notas_que_contiene_el_texto( texto_a_buscar )
+                .then( _cargar_notas_encontradas )
         }else{
             console.log("NO BUSCAR!");
+            var mensaje_de_busqueda_vacia = "<div><span class='nota_encontrada__head'>BUSCADOR DE CONTENIDOS</span><br><span class='nota_encontrada__body'>Tipear para buscar texto en nota...</span></div>";
+            $("#resultado_de_notas_encontradas")
+                .empty()
+                .append(mensaje_de_busqueda_vacia);
+        }
+
+        function _cargar_notas_encontradas(notas) {
+            /* Carga en el espacio debajo del buscador de notas,
+                las notas que contienen en su texto, el texto buscado
+            */
+            console.log("Notas:");
+            console.log(notas);
+
+
+            // Limpiar el box de resultados:
+            $("#resultado_de_notas_encontradas").empty();
+
+            for (var i = notas.length - 1; i >= 0; i--) {
+                $("#resultado_de_notas_encontradas")
+                    .append( __crear_buton_a_nota( notas[i] ) );
+            }
+            function __crear_buton_a_nota(nota){
+                /* Crea y retorna un boton con la informacion de la nota recibida */
+                var btn_a_nota = "";
+                btn_a_nota += "<a href='#detalleNota' class='ui-btn ui-shadow ui-corner-all abrir-nota-desde-buscador'>";
+                btn_a_nota += "    <span class='nota_encontrada__head'># <span class='nota__id'>"+nota.id+"</span></span>";
+                btn_a_nota += "    <br>";
+                btn_a_nota += "    <span class='nota_encontrada__body'>"+nota.texto+"</span>";
+                btn_a_nota += "</a>";
+                
+                return btn_a_nota;
+                            
+            }
+
+            $(".abrir-nota-desde-buscador").click(notevoice_app.on__abrir_nota_desde_buscador);
         }
 
     }
