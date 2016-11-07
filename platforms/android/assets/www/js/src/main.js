@@ -454,8 +454,7 @@ var notevoice_app = {
                 localStorage.setItem("semana_actual", la_nota.numero_de_semana );
                 NOTEVOICE.Materias
                     .notas_de_materia(materia.id)
-                    .then( dibujar_notas_de_la_semana )                
-                
+                    .then(dibujar_notas_de_la_semana)
             })
 
         function dibujar_notas_de_la_semana(semanas) {
@@ -474,10 +473,8 @@ var notevoice_app = {
                     nota);
                 $(".listado__de__notas").append(nota_en_listado);
             }
-
+            $(".listado__de__notas").listview("refresh");
             $(".abrir_nota").click(notevoice_app.on__abrir_nota);
-
-
         }
     },
 
@@ -582,8 +579,7 @@ var notevoice_app = {
     },
 
     on__tipeo_busqueda_de_nota: function on__typing_search_of_note( evento ) {
-
-        var texto_a_buscar = $(evento.currentTarget).val();
+        var texto_a_buscar = $(evento.currentTarget).val().toLowerCase();
         
         console.log("BUSCAR NOTA QUE CONTENGA: "+texto_a_buscar);
         if ( texto_a_buscar.length > 0 ) {

@@ -359,7 +359,7 @@
 	    				var notas_que_cumplen = [];
 	    				for (var i = notas.length - 1; i >= 0; i--) {
 	    					var nota = notas[i];
-		    				if ( nota.texto.indexOf(que_texto) != -1 )
+		    				if ( nota.texto.toLowerCase().indexOf(que_texto) != -1 )
 		    					notas_que_cumplen.push(nota);
 	    				}
 	    				resolve( notas_que_cumplen );
